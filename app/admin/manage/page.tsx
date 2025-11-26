@@ -102,7 +102,7 @@ export default function ManagePage() {
   const getFilteredSubjects = () => {
     if (!selectedYear) return [];
     const years = getFilteredYears();
-    const year = years.find((y) => y.id === selectedYear);
+    const year = years.find((y) => y.level.toString() === selectedYear);
     return year?.subjects || [];
   };
 
@@ -328,7 +328,7 @@ export default function ManagePage() {
               {selectedBranch ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   {getFilteredYears().map((year) => (
-                    <Card key={year.id}>
+                    <Card key={year.level}>
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
@@ -442,7 +442,7 @@ export default function ManagePage() {
                   </SelectTrigger>
                   <SelectContent>
                     {getFilteredYears().map((year) => (
-                      <SelectItem key={year.id} value={year.id}>
+                      <SelectItem key={year.level} value={year.level.toString()}>
                         {year.name}
                       </SelectItem>
                     ))}
