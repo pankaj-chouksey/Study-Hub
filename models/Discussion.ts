@@ -1,4 +1,4 @@
-import mongoose, { Schema, Model } from "mongoose";
+import mongoose, { Schema, Model, Types } from "mongoose";
 
 export interface IDiscussion {
   _id: string;
@@ -7,7 +7,7 @@ export interface IDiscussion {
   tags: string[];
   upvotes: number;
   views: number;
-  authorId: string;
+  authorId: Types.ObjectId | string;
   createdAt: Date;
   updatedAt: Date;
 }
