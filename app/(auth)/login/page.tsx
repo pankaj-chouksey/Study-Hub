@@ -69,7 +69,17 @@ export default function LoginPage() {
         return
       }
 
+      if (!result?.ok) {
+        toast.error("Login failed. Please try again.")
+        setIsLoading(false)
+        return
+      }
+
       toast.success("Login successful!")
+      
+      // Small delay to ensure session is set
+      await new Promise(resolve => setTimeout(resolve, 500))
+      
       router.push(returnUrl)
       router.refresh()
     } catch (error) {

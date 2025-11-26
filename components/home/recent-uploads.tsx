@@ -10,6 +10,7 @@ import { motion } from "framer-motion"
 import { Content } from "@/lib/types"
 import { formatDistanceToNow } from "date-fns"
 import { useApprovedContent } from "@/hooks/use-approved-content"
+import { DefaultThumbnail } from "@/components/content/default-thumbnail"
 
 const typeIconMap = {
   note: FileText,
@@ -105,7 +106,7 @@ function ContentCard({ content, index }: { content: Content; index: number }) {
       <Link href={contentUrl}>
         <Card className="group hover:shadow-lg transition-all duration-200 cursor-pointer h-full overflow-hidden">
           {/* Thumbnail */}
-          <div className="relative aspect-video bg-muted overflow-hidden">
+          <div className="relative aspect-video overflow-hidden">
             {content.thumbnail ? (
               <Image
                 src={content.thumbnail}
@@ -116,9 +117,7 @@ function ContentCard({ content, index }: { content: Content; index: number }) {
                 loading="lazy"
               />
             ) : (
-              <div className="flex items-center justify-center h-full bg-gradient-to-br from-muted to-muted/50">
-                <TypeIcon className="h-16 w-16 text-muted-foreground/30" />
-              </div>
+              <DefaultThumbnail type={content.type} />
             )}
             <div className="absolute top-2 right-2">
               <Badge className={typeColorClass}>

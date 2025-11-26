@@ -4,6 +4,7 @@ export interface IUser {
   _id: string;
   name: string;
   email: string;
+  password?: string; // Optional for OAuth users
   avatar?: string;
   role: "student" | "admin";
   branch: string;
@@ -23,6 +24,11 @@ const UserSchema = new Schema<IUser>(
       type: String,
       required: [true, "Please provide an email"],
       unique: true,
+    },
+    password: {
+      type: String,
+      // Not required because OAuth users won't have a password
+      select: false, // Don't return password by default in queries
     },
     avatar: String,
     role: {

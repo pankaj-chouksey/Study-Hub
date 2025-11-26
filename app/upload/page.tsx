@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import { useSession } from "next-auth/react"
 import { MainLayout } from "@/components/layout/main-layout"
 import { AuthRequired } from "@/components/auth/auth-required"
-import { isAuthenticated } from "@/lib/auth-utils"
 import { Upload as UploadIcon, Link as LinkIcon, CheckCircle2 } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -25,14 +25,9 @@ import {
 } from "@/components/ui/select"
 
 export default function UploadPage() {
-  const [isAuthChecked, setIsAuthChecked] = useState(false)
-  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false)
-  
-  // Check authentication on mount
-  useEffect(() => {
-    setIsUserAuthenticated(isAuthenticated())
-    setIsAuthChecked(true)
-  }, [])
+  const { data: session, status } = useSession()
+  const isLoading = status === "loading"
+  const isAuthenticated = status === "authenticated"
   
   const [hierarchySelection, setHierarchySelection] = useState<HierarchySelection | null>(null)
   const [uploadType, setUploadType] = useState<"file" | "video">("file")
@@ -54,14 +49,16 @@ export default function UploadPage() {
     setIsUploading(true)
     
     try {
-      // Upload file to Vercel Blob
+      // Upload file
       const formData = new FormData()
       formData.append('file', file)
       
-      // Use local upload for development, Vercel Blob for production
+      // Choose upload endpoint based on environment
+      // Local: /api/upload-local
+      // Production: /api/upload-cloudinary (Cloudinary)
       const uploadEndpoint = process.env.NEXT_PUBLIC_USE_LOCAL_UPLOAD === 'true' 
         ? '/api/upload-local' 
-        : '/api/upload'
+        : '/api/upload-cloudinary'
       
       const response = await fetch(uploadEndpoint, {
         method: 'POST',
@@ -137,37 +134,10 @@ export default function UploadPage() {
     setIsSubmitting(true)
 
     try {
-      // First, create a user if needed (in real app, get from auth)
-      // For now, we'll create a test user or use existing one
-      let userId = "user-1";
-      
-      // Try to get or create a user
-      try {
-        const usersResponse = await fetch("/api/users");
-        const usersData = await usersResponse.json();
-        
-        if (usersData.success && usersData.data.length > 0) {
-          userId = usersData.data[0]._id;
-        } else {
-          // Create a test user
-          const createUserResponse = await fetch("/api/users", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              name: "Test User",
-              email: "test@example.com",
-              role: "student",
-              branch: hierarchySelection!.branch,
-              year: hierarchySelection!.year,
-            }),
-          });
-          const userData = await createUserResponse.json();
-          if (userData.success) {
-            userId = userData.data._id;
-          }
-        }
-      } catch (error) {
-        console.error("Error getting/creating user:", error);
+      // Get user ID from session
+      if (!session?.user?.id) {
+        toast.error("Please sign in to upload content")
+        return
       }
 
       // Upload content to MongoDB
@@ -187,7 +157,7 @@ export default function UploadPage() {
           topic: hierarchySelection!.topic,
           fileUrl: uploadType === "file" ? fileUrl : undefined,
           videoUrl: uploadType === "video" ? youtubeUrl : undefined,
-          uploaderId: userId,
+          uploaderId: session.user.id,
           tags: [],
         }),
       });
@@ -222,8 +192,8 @@ export default function UploadPage() {
     }
   }
 
-  // Show auth required if not authenticated
-  if (!isAuthChecked) {
+  // Show loading while checking auth
+  if (isLoading) {
     return (
       <MainLayout>
         <div className="flex items-center justify-center min-h-[400px]">
@@ -233,7 +203,8 @@ export default function UploadPage() {
     )
   }
 
-  if (!isUserAuthenticated) {
+  // Show auth required if not authenticated
+  if (!isAuthenticated) {
     return (
       <MainLayout>
         <AuthRequired

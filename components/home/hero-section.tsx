@@ -11,7 +11,7 @@ interface HeroSectionProps {
 
 export function HeroSection({
   headline = "Find, Share & Learn Together",
-  subtext = "Collaborative notes, videos, and PYQs for all departments. Built by students, for students."
+  subtext = "Collaborative notes, videos, and PYQs for all departments.\nBuilt by Pankaj Chouksey"
 }: HeroSectionProps) {
   return (
     <section className="relative min-h-[400px] flex items-center justify-center overflow-hidden py-16 px-6">

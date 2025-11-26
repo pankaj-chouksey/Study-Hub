@@ -24,7 +24,8 @@ export const authOptions: NextAuthOptions = {
 
         await dbConnect()
 
-        const user = await User.findOne({ email: credentials.email })
+        // Need to explicitly select password since it's excluded by default
+        const user = await User.findOne({ email: credentials.email }).select("+password")
 
         if (!user || !(user as any).password) {
           throw new Error("Invalid credentials")
@@ -78,12 +79,15 @@ export const authOptions: NextAuthOptions = {
       return true
     },
     async jwt({ token, user, trigger, session }) {
+      // Initial sign in
       if (user) {
         token.id = user.id
         token.role = user.role
         token.branch = user.branch
         token.year = user.year
         token.avatar = user.avatar
+        token.email = user.email || ""
+        token.name = user.name || ""
       }
       
       // Handle session update
@@ -115,4 +119,5 @@ export const authOptions: NextAuthOptions = {
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   secret: process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === "development",
 }

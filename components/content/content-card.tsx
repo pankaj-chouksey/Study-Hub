@@ -6,6 +6,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Content } from "@/lib/types"
 import { cn } from "@/lib/utils"
+import { DefaultThumbnail } from "./default-thumbnail"
 
 interface ContentCardProps {
   content: Content
@@ -66,7 +67,7 @@ export function ContentCard({ content, className }: ContentCardProps) {
         className
       )}>
         {/* Thumbnail */}
-        <div className="relative aspect-video bg-muted flex items-center justify-center overflow-hidden">
+        <div className="relative aspect-video overflow-hidden">
           {content.thumbnail ? (
             <Image 
               src={content.thumbnail} 
@@ -77,7 +78,7 @@ export function ContentCard({ content, className }: ContentCardProps) {
               loading="lazy"
             />
           ) : (
-            <Icon className={cn("w-16 h-16", iconColor)} />
+            <DefaultThumbnail type={content.type} />
           )}
         </div>
 

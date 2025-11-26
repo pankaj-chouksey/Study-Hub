@@ -1,36 +1,199 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# StudyHub - Collaborative Study Platform
 
-## Getting Started
+A modern, production-ready study platform built with Next.js 15, featuring secure authentication, file uploads, and content management.
 
-First, run the development server:
+## ✨ Features
+
+- 🔐 **Secure Authentication** - NextAuth.js with email/password and Google OAuth
+- 📁 **File Uploads** - Cloudinary integration with 25GB free storage
+- 💾 **Database** - MongoDB Atlas for data persistence
+- 👥 **User Roles** - Student and Admin roles with different permissions
+- ✅ **Content Approval** - Admin workflow for content moderation
+- 🎨 **Modern UI** - Responsive design with dark mode support
+- 🔍 **Search** - Find content across departments and subjects
+- 💬 **Comments** - Discussion on uploaded content
+- 🏆 **Leaderboard** - Gamification with points system
+- 📱 **Mobile Friendly** - Works great on all devices
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+ installed
+- MongoDB Atlas account
+- Cloudinary account (free)
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone <your-repo-url>
+cd study-platform
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Edit .env.local with your credentials
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔧 Configuration
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Environment Variables
 
-## Learn More
+Create `.env.local` with:
 
-To learn more about Next.js, take a look at the following resources:
+```env
+# MongoDB
+MONGODB_URI=mongodb+srv://...
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# NextAuth
+NEXTAUTH_SECRET=your-secret-key
+NEXTAUTH_URL=http://localhost:3000
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Cloudinary
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
 
-## Deploy on Vercel
+# Development only
+NEXT_PUBLIC_USE_LOCAL_UPLOAD=true
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+See `CLOUDINARY-QUICKSTART.md` for detailed setup instructions.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📚 Documentation
+
+- **[FINAL-DEPLOYMENT-GUIDE.md](FINAL-DEPLOYMENT-GUIDE.md)** - Complete deployment guide
+- **[CLOUDINARY-QUICKSTART.md](CLOUDINARY-QUICKSTART.md)** - Quick Cloudinary setup
+- **[SECURITY-SUMMARY.md](SECURITY-SUMMARY.md)** - Security overview
+- **[docs/NEXTAUTH-SETUP-COMPLETE.md](docs/NEXTAUTH-SETUP-COMPLETE.md)** - Authentication docs
+- **[docs/CLOUDINARY-SETUP.md](docs/CLOUDINARY-SETUP.md)** - Detailed Cloudinary guide
+
+## 🏗️ Tech Stack
+
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui
+- **Authentication**: NextAuth.js
+- **Database**: MongoDB with Mongoose
+- **File Storage**: Cloudinary
+- **Deployment**: Vercel
+
+## 📦 Project Structure
+
+```
+study-platform/
+├── app/                    # Next.js app directory
+│   ├── (auth)/            # Authentication pages
+│   ├── api/               # API routes
+│   ├── departments/       # Department pages
+│   └── ...
+├── components/            # React components
+│   ├── auth/             # Auth components
+│   ├── layout/           # Layout components
+│   └── ...
+├── lib/                   # Utility functions
+├── models/               # MongoDB models
+├── docs/                 # Documentation
+└── public/               # Static files
+```
+
+## 🔐 Security
+
+- ✅ Passwords hashed with bcrypt
+- ✅ JWT tokens with secure secrets
+- ✅ HTTP-only cookies
+- ✅ CSRF protection
+- ✅ Input validation
+- ✅ Environment variables for secrets
+- ✅ Production-ready authentication
+
+## 🚀 Deployment
+
+### Deploy to Vercel
+
+1. Push code to GitHub
+2. Import project in Vercel
+3. Add environment variables
+4. Deploy!
+
+See [FINAL-DEPLOYMENT-GUIDE.md](FINAL-DEPLOYMENT-GUIDE.md) for detailed instructions.
+
+### Environment Variables for Production
+
+```env
+MONGODB_URI=<your-mongodb-uri>
+NEXTAUTH_SECRET=<generate-new-secret>
+NEXTAUTH_URL=https://your-domain.vercel.app
+CLOUDINARY_CLOUD_NAME=<your-cloud-name>
+CLOUDINARY_API_KEY=<your-api-key>
+CLOUDINARY_API_SECRET=<your-api-secret>
+```
+
+## 📊 Features Overview
+
+### For Students
+- Browse content by department/branch/semester
+- Upload study materials
+- Comment on content
+- Earn points for contributions
+- View leaderboard
+
+### For Admins
+- Approve/reject uploaded content
+- Manage users
+- View analytics
+- Moderate discussions
+
+### Content Types
+- 📝 Notes
+- 🎥 Videos
+- 📋 Past Year Questions (PYQs)
+- ⭐ Important Questions
+
+## 🎯 Roadmap
+
+- [ ] Email verification
+- [ ] Password reset
+- [ ] User profiles
+- [ ] Bookmarks/favorites
+- [ ] Advanced search filters
+- [ ] Notifications
+- [ ] Mobile app
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🆘 Support
+
+For issues or questions:
+- Check the [documentation](docs/)
+- Review [troubleshooting guide](FINAL-DEPLOYMENT-GUIDE.md#troubleshooting)
+- Open an issue on GitHub
+
+## 🙏 Acknowledgments
+
+- Next.js team for the amazing framework
+- shadcn for the beautiful UI components
+- Vercel for hosting
+- MongoDB Atlas for database
+- Cloudinary for file storage
+
+---
+
+**Built with ❤️ by Pankaj Chouksey**
+
+🚀 **Ready to deploy?** See [FINAL-DEPLOYMENT-GUIDE.md](FINAL-DEPLOYMENT-GUIDE.md)

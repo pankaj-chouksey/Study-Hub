@@ -109,7 +109,7 @@ export function Footer() {
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>© {currentYear} StudyHub. All rights reserved.</p>
-          <p>Made with ❤️ for students, by students</p>
+          <p>Built with ❤️ by Pankaj Chouksey</p>
         </div>
       </div>
     </footer>
