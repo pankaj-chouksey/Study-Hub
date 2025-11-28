@@ -23,9 +23,12 @@ export default async function YearPage({ params }: PageProps) {
   const branchData = dept?.branches.find(b => b.slug === branch);
   const yearData = branchData?.years.find(y => y.level.toString() === year);
   
-  // Fetch approved content from MongoDB to get unique subjects
+  // Get subjects from constants
+  const subjectsFromConstants = yearData?.subjects || [];
+  
+  // Fetch approved content from MongoDB to get content counts
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  let subjects: Array<{ name: string; slug: string; contentCount: number }> = [];
+  const contentCountMap = new Map<string, number>();
   
   try {
     const response = await fetch(`${baseUrl}/api/content?status=approved`, {
@@ -34,23 +37,24 @@ export default async function YearPage({ params }: PageProps) {
     const data = await response.json();
     
     if (data.success) {
-      // Group content by subject and count
-      const subjectMap = new Map<string, number>();
+      // Count content by subject
       data.data.forEach((content: any) => {
-        const count = subjectMap.get(content.subject) || 0;
-        subjectMap.set(content.subject, count + 1);
+        const count = contentCountMap.get(content.subject) || 0;
+        contentCountMap.set(content.subject, count + 1);
       });
-      
-      // Convert to array
-      subjects = Array.from(subjectMap.entries()).map(([name, count]) => ({
-        name,
-        slug: name.toLowerCase().replace(/\s+/g, '-'),
-        contentCount: count
-      }));
     }
   } catch (error) {
-    console.error('Error fetching subjects:', error);
+    console.error('Error fetching content:', error);
   }
+  
+  // Map subjects with their content counts
+  const subjects = subjectsFromConstants.map(subject => ({
+    id: subject.id,
+    name: subject.name,
+    code: subject.code,
+    slug: subject.id,
+    contentCount: contentCountMap.get(subject.name) || 0
+  }));
 
   return (
     <>
@@ -82,7 +86,7 @@ export default async function YearPage({ params }: PageProps) {
 
         {subjects.length === 0 ? (
           <div className="col-span-full text-center py-12">
-            <p className="text-muted-foreground">No subjects with content yet. Upload some materials to get started!</p>
+            <p className="text-muted-foreground">No subjects available for this semester yet.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -91,40 +95,58 @@ export default async function YearPage({ params }: PageProps) {
                 key={subject.slug}
                 href={`/departments/${department}/${branch}/${year}/${subject.slug}`}
               >
-                <Card className="h-full hover:shadow-lg transition-all hover:scale-105 cursor-pointer">
+                <Card className={`h-full hover:shadow-lg transition-all hover:scale-105 cursor-pointer ${subject.contentCount === 0 ? 'opacity-75' : ''}`}>
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <CardTitle className="text-lg mb-1">{subject.name}</CardTitle>
+                        <CardDescription className="text-sm">{subject.code}</CardDescription>
                       </div>
                       <ChevronRight className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-1" />
                     </div>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <FileText className="h-4 w-4" />
-                        <span>{subject.contentCount} materials</span>
+                      <div className="flex items-center gap-2 text-sm">
+                        {subject.contentCount > 0 ? (
+                          <>
+                            <FileText className="h-4 w-4 text-primary" />
+                            <span className="text-foreground font-medium">{subject.contentCount} materials</span>
+                          </>
+                        ) : (
+                          <>
+                            <FileText className="h-4 w-4 text-muted-foreground" />
+                            <span className="text-muted-foreground">No content yet</span>
+                          </>
+                        )}
                       </div>
                       
-                      <div className="flex flex-wrap gap-2">
-                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                          <FileText className="h-3 w-3" />
-                          <span>Notes</span>
+                      {subject.contentCount > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <FileText className="h-3 w-3" />
+                            <span>Notes</span>
+                          </div>
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <Video className="h-3 w-3" />
+                            <span>Videos</span>
+                          </div>
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <FileQuestion className="h-3 w-3" />
+                            <span>PYQs</span>
+                          </div>
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <Star className="h-3 w-3" />
+                            <span>Important</span>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                          <Video className="h-3 w-3" />
-                          <span>Videos</span>
-                        </div>
-                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                          <FileQuestion className="h-3 w-3" />
-                          <span>PYQs</span>
-                        </div>
-                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                          <Star className="h-3 w-3" />
-                          <span>Important</span>
-                        </div>
-                      </div>
+                      )}
+                      
+                      {subject.contentCount === 0 && (
+                        <Badge variant="outline" className="text-xs">
+                          Be the first to contribute!
+                        </Badge>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
