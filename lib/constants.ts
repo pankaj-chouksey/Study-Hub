@@ -19,7 +19,43 @@ export const DEPARTMENTS: Department[] = [
           {
             level: 1,
             name: "Semester 1",
-            subjects: []
+            subjects: [
+              {
+                id: "physics",
+                name: "Physics",
+                code: "PHY101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "mathematics-1",
+                name: "Mathematics-I",
+                code: "MATH101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "engineering-mechanics",
+                name: "Engineering Mechanics & Civil Engineering",
+                code: "CE101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "mechanical-engineering",
+                name: "Fundamentals of Mechanical Engineering",
+                code: "ME101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "computer-science",
+                name: "Fundamentals of Computer Science & Engineering",
+                code: "CSE101",
+                yearId: "1",
+                topics: []
+              }
+            ]
           },
           {
             level: 2,
