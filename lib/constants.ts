@@ -83,7 +83,43 @@ export const DEPARTMENTS: Department[] = [
           {
             level: 1,
             name: "Semester 1",
-            subjects: []
+            subjects: [
+              {
+                id: "engineering-physics",
+                name: "Engineering Physics",
+                code: "PHY102",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "mathematics-1",
+                name: "Mathematics-I",
+                code: "MATH101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "electrical-engineering",
+                name: "Fundamentals of Electrical Engineering",
+                code: "EE101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "electronics-engineering",
+                name: "Fundamental of Electronics Engineering",
+                code: "EC101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "information-technology",
+                name: "Fundamentals of Information Technology",
+                code: "IT101",
+                yearId: "1",
+                topics: []
+              }
+            ]
           },
           {
             level: 2,
@@ -111,7 +147,43 @@ export const DEPARTMENTS: Department[] = [
           {
             level: 1,
             name: "Semester 1",
-            subjects: []
+            subjects: [
+              {
+                id: "chemistry",
+                name: "Chemistry",
+                code: "CHEM101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "mathematics-1",
+                name: "Mathematics-I",
+                code: "MATH101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "english",
+                name: "English",
+                code: "ENG101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "electrical-engineering",
+                name: "Fundamentals of Electrical Engineering",
+                code: "EE101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "engineering-graphics",
+                name: "Engineering Graphics",
+                code: "EG101",
+                yearId: "1",
+                topics: []
+              }
+            ]
           },
           {
             level: 2,
@@ -139,7 +211,43 @@ export const DEPARTMENTS: Department[] = [
           {
             level: 1,
             name: "Semester 1",
-            subjects: []
+            subjects: [
+              {
+                id: "mechanical-engineering",
+                name: "Fundamentals of Mechanical Engineering",
+                code: "ME101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "mathematics-1",
+                name: "Mathematics-I",
+                code: "MATH101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "english",
+                name: "English",
+                code: "ENG101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "electrical-engineering",
+                name: "Fundamental of Electrical Engineering",
+                code: "EE101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "renewable-energy",
+                name: "Renewable Energy Resources",
+                code: "RE101",
+                yearId: "1",
+                topics: []
+              }
+            ]
           },
           {
             level: 2,
@@ -167,7 +275,43 @@ export const DEPARTMENTS: Department[] = [
           {
             level: 1,
             name: "Semester 1",
-            subjects: []
+            subjects: [
+              {
+                id: "chemistry",
+                name: "Chemistry",
+                code: "CHEM101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "mathematics-1",
+                name: "Mathematics-I",
+                code: "MATH101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "english",
+                name: "English",
+                code: "ENG101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "electrical-engineering",
+                name: "Fundamentals of Electrical Engineering",
+                code: "EE101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "engineering-graphics",
+                name: "Engineering Graphics",
+                code: "EG101",
+                yearId: "1",
+                topics: []
+              }
+            ]
           },
           {
             level: 2,
@@ -195,7 +339,43 @@ export const DEPARTMENTS: Department[] = [
           {
             level: 1,
             name: "Semester 1",
-            subjects: []
+            subjects: [
+              {
+                id: "chemistry",
+                name: "Chemistry",
+                code: "CHEM101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "mathematics-1",
+                name: "Mathematics-I",
+                code: "MATH101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "english",
+                name: "English",
+                code: "ENG101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "electrical-engineering",
+                name: "Fundamentals of Electrical Engineering",
+                code: "EE101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "engineering-graphics",
+                name: "Engineering Graphics",
+                code: "EG101",
+                yearId: "1",
+                topics: []
+              }
+            ]
           },
           {
             level: 2,
@@ -223,7 +403,43 @@ export const DEPARTMENTS: Department[] = [
           {
             level: 1,
             name: "Semester 1",
-            subjects: []
+            subjects: [
+              {
+                id: "chemistry",
+                name: "Chemistry",
+                code: "CHEM101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "mathematics-1",
+                name: "Mathematics-I",
+                code: "MATH101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "english",
+                name: "English",
+                code: "ENG101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "electrical-engineering",
+                name: "Fundamentals of Electrical Engineering",
+                code: "EE101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "engineering-graphics",
+                name: "Engineering Graphics",
+                code: "EG101",
+                yearId: "1",
+                topics: []
+              }
+            ]
           },
           {
             level: 2,
