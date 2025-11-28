@@ -11,7 +11,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { toast } from "sonner"
-import { User, Mail, Lock, Chrome, GraduationCap, Calendar } from "lucide-react"
+import { User, Mail, Lock, GraduationCap, Calendar } from "lucide-react"
 import { DEPARTMENTS } from "@/lib/constants"
 
 export default function SignupPage() {
@@ -142,18 +142,7 @@ export default function SignupPage() {
     }
   }
 
-  const handleGoogleSignup = async () => {
-    setIsLoading(true)
-    try {
-      await signIn("google", {
-        callbackUrl: returnUrl,
-      })
-    } catch (error) {
-      console.error("Google signup error:", error)
-      toast.error("Failed to sign up with Google")
-      setIsLoading(false)
-    }
-  }
+
 
   const handleChange = (field: keyof typeof formData) => (
     e: React.ChangeEvent<HTMLInputElement>
@@ -182,26 +171,6 @@ export default function SignupPage() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Google Sign Up */}
-        <Button
-          variant="outline"
-          className="w-full"
-          onClick={handleGoogleSignup}
-          disabled={isLoading}
-        >
-          <Chrome className="mr-2 h-4 w-4" />
-          Continue with Google
-        </Button>
-
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <Separator />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
-          </div>
-        </div>
-
         {/* Registration Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">

@@ -1,0 +1,83 @@
+═══════════════════════════════════════════════════════════════
+  VERCEL ENVIRONMENT VARIABLES - QUICK COPY/PASTE
+═══════════════════════════════════════════════════════════════
+
+📋 COPY THESE TO VERCEL DASHBOARD:
+   Settings → Environment Variables → Add New
+
+───────────────────────────────────────────────────────────────
+1. MONGODB_URI
+───────────────────────────────────────────────────────────────
+mongodb+srv://pankajchouksey521_db_user:StudyHubDatabse%4054321@studyhub-db.omcinwl.mongodb.net/studyhub?retryWrites=true&w=majority
+
+───────────────────────────────────────────────────────────────
+2. NEXTAUTH_SECRET
+───────────────────────────────────────────────────────────────
+JOcHn4rGUgkmZ9je2Z72p97h7bskriv3DywLqzvJHQA=
+
+───────────────────────────────────────────────────────────────
+3. NEXTAUTH_URL
+───────────────────────────────────────────────────────────────
+https://your-domain.vercel.app
+⚠️  CHANGE THIS TO YOUR ACTUAL VERCEL URL!
+
+───────────────────────────────────────────────────────────────
+4. CLOUDINARY_CLOUD_NAME
+───────────────────────────────────────────────────────────────
+dfkskvj9y
+
+───────────────────────────────────────────────────────────────
+5. CLOUDINARY_API_KEY
+───────────────────────────────────────────────────────────────
+375117913273191
+
+───────────────────────────────────────────────────────────────
+6. CLOUDINARY_API_SECRET
+───────────────────────────────────────────────────────────────
+QO8bh-KyDF9LArEZekxxqerOCF8
+
+───────────────────────────────────────────────────────────────
+7. NEXT_PUBLIC_USE_LOCAL_UPLOAD
+───────────────────────────────────────────────────────────────
+false
+
+═══════════════════════════════════════════════════════════════
+
+📝 OPTIONAL (For Google Sign-In):
+
+───────────────────────────────────────────────────────────────
+8. GOOGLE_CLIENT_ID
+───────────────────────────────────────────────────────────────
+your-google-client-id-here
+
+───────────────────────────────────────────────────────────────
+9. GOOGLE_CLIENT_SECRET
+───────────────────────────────────────────────────────────────
+your-google-client-secret-here
+
+═══════════════════════════════════════════════════════════════
+
+✅ DEPLOYMENT STEPS:
+
+1. Go to: https://vercel.com/dashboard
+2. Select your project
+3. Click: Settings → Environment Variables
+4. Add each variable above (copy/paste)
+5. Select: Production, Preview, Development
+6. Click: Save
+7. Go to: Deployments tab
+8. Click: Redeploy (with existing Build Cache)
+9. Wait for deployment to complete
+10. Update NEXTAUTH_URL with your actual domain
+11. Redeploy one more time
+
+═══════════════════════════════════════════════════════════════
+
+⚠️  IMPORTANT REMINDERS:
+
+• Change NEXTAUTH_URL to your actual Vercel domain
+• Keep these values SECRET - never commit to Git
+• MongoDB Atlas: Whitelist 0.0.0.0/0 for Vercel IPs
+• Test after deployment: Auth, Upload, Database
+
+═══════════════════════════════════════════════════════════════
