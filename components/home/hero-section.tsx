@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import { Sparkles, Upload, BookOpen } from "lucide-react"
+import { FlyingPapers } from "./flying-papers"
 
 interface HeroSectionProps {
   headline?: string
@@ -18,6 +19,9 @@ export function HeroSection({
     <section className="relative min-h-[500px] flex items-center justify-center overflow-hidden py-20 px-6">
       {/* Animated gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-teal-50 dark:from-blue-950/20 dark:via-purple-950/20 dark:to-teal-950/20" />
+      
+      {/* Flying papers background */}
+      <FlyingPapers />
       
       {/* Floating orbs */}
       <motion.div
