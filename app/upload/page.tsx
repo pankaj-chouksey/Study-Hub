@@ -263,6 +263,8 @@ export default function UploadPage() {
                     <SelectItem value="video">Video</SelectItem>
                     <SelectItem value="pyq">Past Year Questions</SelectItem>
                     <SelectItem value="important">Important Questions</SelectItem>
+                    <SelectItem value="syllabus">Syllabus</SelectItem>
+                    <SelectItem value="timetable">Time Table</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

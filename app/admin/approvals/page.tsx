@@ -330,6 +330,8 @@ export default function ApprovalsPage() {
                 <SelectItem value="video">Videos</SelectItem>
                 <SelectItem value="pyq">PYQs</SelectItem>
                 <SelectItem value="important">Important Questions</SelectItem>
+                <SelectItem value="syllabus">Syllabus</SelectItem>
+                <SelectItem value="timetable">Time Table</SelectItem>
               </SelectContent>
             </Select>
 

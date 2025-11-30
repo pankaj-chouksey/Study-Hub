@@ -12,7 +12,7 @@ export interface User {
 }
 
 // Content Types
-export type ContentType = "note" | "video" | "pyq" | "important"
+export type ContentType = "note" | "video" | "pyq" | "important" | "syllabus" | "timetable"
 export type ContentStatus = "pending" | "approved" | "rejected"
 
 export interface Content {

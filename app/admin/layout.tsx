@@ -2,6 +2,8 @@ import { AdminSidebar } from "@/components/layout/admin-sidebar";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import dbConnect from "@/lib/mongodb";
+import Content from "@/models/Content";
 
 export default async function AdminLayout({
   children,
@@ -15,9 +17,18 @@ export default async function AdminLayout({
     redirect("/");
   }
 
+  // Fetch pending count
+  let pendingCount = 0;
+  try {
+    await dbConnect();
+    pendingCount = await Content.countDocuments({ status: "pending" });
+  } catch (error) {
+    console.error("Error fetching pending count:", error);
+  }
+
   return (
     <div className="flex min-h-screen">
-      <AdminSidebar pendingCount={5} />
+      <AdminSidebar pendingCount={pendingCount} />
       <main className="flex-1 overflow-auto">
         {children}
       </main>

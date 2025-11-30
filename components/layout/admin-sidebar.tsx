@@ -5,9 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   CheckCircle,
-  Users,
-  BarChart,
-  Settings,
+  FileText,
   BookOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -31,19 +29,9 @@ const menuItems = [
     badge: true,
   },
   {
-    label: "Users",
-    icon: Users,
-    href: "/admin/users",
-  },
-  {
-    label: "Analytics",
-    icon: BarChart,
-    href: "/admin/analytics",
-  },
-  {
-    label: "Manage",
-    icon: Settings,
-    href: "/admin/manage",
+    label: "Content",
+    icon: FileText,
+    href: "/admin/content",
   },
 ];
 

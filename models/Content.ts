@@ -5,7 +5,7 @@ export interface IContent {
   _id: string;
   title: string;
   description: string;
-  type: "note" | "video" | "pyq" | "important";
+  type: "note" | "video" | "pyq" | "important" | "syllabus" | "timetable";
   fileUrl?: string;
   videoUrl?: string;
   thumbnail?: string;
@@ -36,7 +36,7 @@ const ContentSchema = new Schema<IContent>(
     },
     type: {
       type: String,
-      enum: ["note", "video", "pyq", "important"],
+      enum: ["note", "video", "pyq", "important", "syllabus", "timetable"],
       required: true,
     },
     fileUrl: String,
