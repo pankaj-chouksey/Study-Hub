@@ -1,17 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SessionProvider } from "@/components/providers/session-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { generateMetadata as generateSiteMetadata } from "@/lib/metadata";
 import { StructuredData } from "@/components/seo/structured-data";
-
-const inter = Inter({ 
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
 
 export const metadata: Metadata = generateSiteMetadata({
   title: "StudyHub - Share & Learn Together",
@@ -38,7 +31,7 @@ export default function RootLayout({
         <StructuredData type="WebSite" />
         <StructuredData type="Organization" />
       </head>
-      <body className={inter.className}>
+      <body>
         <SessionProvider>
           <ThemeProvider
             attribute="class"

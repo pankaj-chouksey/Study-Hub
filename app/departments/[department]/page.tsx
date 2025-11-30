@@ -47,7 +47,7 @@ export default async function DepartmentPage({ params }: PageProps) {
             <ChevronRight className="h-4 w-4" />
             <span className="text-foreground capitalize">{department.replace("-", " ")}</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold leading-tight">{dept?.fullName || dept?.name || department.replace("-", " ")}</h1>
+          <h1 className="text-3xl sm:text-4xl font-light leading-tight">{dept?.fullName || dept?.name || department.replace("-", " ")}</h1>
           <p className="text-muted-foreground mt-2">{dept?.description || "Select a branch to view study materials"}</p>
         </div>
 

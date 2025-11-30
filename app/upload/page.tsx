@@ -221,7 +221,7 @@ export default function UploadPage() {
     <MainLayout>
       <div className="max-w-3xl mx-auto px-6 py-12">
         <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-2 leading-tight">Upload Content</h1>
+          <h1 className="text-3xl sm:text-4xl font-light mb-2 leading-tight">Upload Content</h1>
           <p className="text-muted-foreground">
             Share your study materials with the community
           </p>

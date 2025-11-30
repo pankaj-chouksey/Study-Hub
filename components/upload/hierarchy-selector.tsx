@@ -135,14 +135,14 @@ export function HierarchySelector({ onSelect, value }: HierarchySelectorProps) {
 
       {/* Year Selector */}
       <div className="space-y-2">
-        <Label htmlFor="year">Year *</Label>
+        <Label htmlFor="year">Semester *</Label>
         <Select
           value={selection.year}
           onValueChange={handleYearChange}
           disabled={!selection.branch}
         >
           <SelectTrigger id="year" className="w-full">
-            <SelectValue placeholder="Select Year" />
+            <SelectValue placeholder="Select Semester" />
           </SelectTrigger>
           <SelectContent>
             {years.map((year) => (

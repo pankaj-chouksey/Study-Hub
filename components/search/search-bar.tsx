@@ -144,7 +144,7 @@ export function SearchBar({ className }: { className?: string }) {
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={() => query.length >= 2 && results.length > 0 && setIsOpen(true)}
-          className="pl-10 pr-10 w-full"
+          className="pl-10 pr-10 w-full bg-muted border-border rounded-lg h-10"
         />
         {isLoading && (
           <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin text-muted-foreground" />

@@ -12,15 +12,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
-
-const departments = [
-  { name: "Computer Science", slug: "computer-science" },
-  { name: "Electronics", slug: "electronics" },
-  { name: "Mechanical", slug: "mechanical" },
-  { name: "Civil", slug: "civil" },
-  { name: "Electrical", slug: "electrical" },
-  { name: "Chemical", slug: "chemical" },
-];
+import { DEPARTMENTS } from "@/lib/constants";
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -120,15 +112,15 @@ export function MobileNav() {
               Departments
             </h3>
             <div className="flex flex-col gap-1">
-              {departments.map((dept) => (
+              {DEPARTMENTS.map((dept) => (
                 <Button
-                  key={dept.slug}
+                  key={dept.id}
                   variant="ghost"
                   asChild
                   className="justify-start h-10 text-sm"
                   onClick={() => setOpen(false)}
                 >
-                  <Link href={`/departments/${dept.slug}`}>{dept.name}</Link>
+                  <Link href={`/departments/${dept.slug}`}>{dept.fullName || dept.name}</Link>
                 </Button>
               ))}
             </div>

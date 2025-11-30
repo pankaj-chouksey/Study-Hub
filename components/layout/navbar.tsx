@@ -17,15 +17,7 @@ import { useSession, signOut } from "next-auth/react";
 import { MobileNav } from "./mobile-nav";
 import { SearchBar } from "@/components/search/search-bar";
 import { toast } from "sonner";
-
-const departments = [
-  "Computer Science",
-  "Electronics",
-  "Mechanical",
-  "Civil",
-  "Electrical",
-  "Chemical",
-];
+import { DEPARTMENTS } from "@/lib/constants";
 
 export function Navbar() {
   const { theme, setTheme } = useTheme();
@@ -48,59 +40,48 @@ export function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-          <BookOpen className="h-6 w-6 text-primary" />
-          <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            StudyHub
+      <div className="container mx-auto px-6 h-16 flex items-center justify-between gap-4">
+        <Link href="/" className="flex items-center gap-2 font-bold text-xl text-foreground">
+          <span className="text-[#2E2E2E] dark:text-[#EEEEEE]">
+            Study Hub
           </span>
         </Link>
 
-        <div className="hidden md:flex flex-1 max-w-xl mx-8">
+        <div className="hidden md:flex flex-1 max-w-2xl mx-8">
           <SearchBar />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="hidden md:flex">
+              <Button variant="ghost" className="hidden md:flex text-[#2E2E2E] dark:text-[#EEEEEE] hover:bg-muted">
                 Departments
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
-              {departments.map((dept) => (
-                <DropdownMenuItem key={dept} asChild>
-                  <Link href={`/departments/${dept.toLowerCase().replace(" ", "-")}`}>
-                    {dept}
+              {DEPARTMENTS.map((dept) => (
+                <DropdownMenuItem key={dept.id} asChild>
+                  <Link href={`/departments/${dept.slug}`}>
+                    {dept.fullName || dept.name}
                   </Link>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button asChild className="hidden md:flex">
+          <Button asChild variant="ghost" className="hidden md:flex text-[#2E2E2E] dark:text-[#EEEEEE] hover:bg-muted">
             <Link href="/upload">
-              <Upload className="h-4 w-4 mr-2" />
               Upload
             </Link>
-          </Button>
-
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          >
-            <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           </Button>
 
           {isUserAuthenticated && user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Avatar className="h-8 w-8">
+                <Button variant="ghost" size="icon" className="hidden md:flex">
+                  <Avatar className="h-10 w-10 bg-muted border border-border">
                     <AvatarImage src={user?.avatar} />
-                    <AvatarFallback>{user?.name?.[0]?.toUpperCase() || "U"}</AvatarFallback>
+                    <AvatarFallback className="bg-muted text-foreground">{user?.name?.[0]?.toUpperCase() || "U"}</AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
