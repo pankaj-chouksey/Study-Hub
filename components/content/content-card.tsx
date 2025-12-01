@@ -1,10 +1,11 @@
 import Link from "next/link"
 import Image from "next/image"
-import { FileText, Video, FileQuestion, Star, Eye, Download } from "lucide-react"
+import React from "react"
+import { FileText, Video, FileQuestion, Star, Eye, Download, BookOpen, Calendar } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import { Content } from "@/lib/types"
+import { Content, ContentType } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { DefaultThumbnail } from "./default-thumbnail"
 import { getContentUrl } from "@/lib/content-url"
@@ -14,18 +15,22 @@ interface ContentCardProps {
   className?: string
 }
 
-const contentTypeIcons = {
+const contentTypeIcons: Record<ContentType, React.ComponentType<{ className?: string }>> = {
   note: FileText,
   video: Video,
   pyq: FileQuestion,
   important: Star,
+  syllabus: BookOpen,
+  timetable: Calendar,
 }
 
-const contentTypeColors = {
+const contentTypeColors: Record<ContentType, string> = {
   note: "text-blue-500",
   video: "text-purple-500",
   pyq: "text-teal-500",
   important: "text-orange-500",
+  syllabus: "text-green-500",
+  timetable: "text-pink-500",
 }
 
 export function ContentCard({ content, className }: ContentCardProps) {
