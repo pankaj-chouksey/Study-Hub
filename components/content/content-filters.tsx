@@ -31,6 +31,8 @@ const contentTypeLabels: Record<ContentType, string> = {
   video: "Videos",
   pyq: "PYQs",
   important: "Important Questions",
+  syllabus: "Syllabus",
+  timetable: "Time Table",
 }
 
 export function ContentFilters({
@@ -42,7 +44,7 @@ export function ContentFilters({
   selectedYear = "all",
   onYearChange,
   
-  types = ["note", "video", "pyq", "important"],
+  types = ["note", "video", "pyq", "important", "syllabus", "timetable"],
   selectedType = "all",
   onTypeChange,
   
