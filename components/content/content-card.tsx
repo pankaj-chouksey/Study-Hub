@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Content } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { DefaultThumbnail } from "./default-thumbnail"
+import { getContentUrl } from "@/lib/content-url"
 
 interface ContentCardProps {
   content: Content
@@ -31,14 +32,8 @@ export function ContentCard({ content, className }: ContentCardProps) {
   const Icon = contentTypeIcons[content.type]
   const iconColor = contentTypeColors[content.type]
   
-  // Convert content properties to URL-friendly slugs
-  const departmentSlug = content.department.toLowerCase().replace(/\s+/g, "-")
-  const branchSlug = content.branch.toLowerCase().replace(/\s+/g, "-")
-  const yearSlug = content.year.toLowerCase().replace(/\s+/g, "-").replace("year", "").trim()
-  const subjectSlug = content.subject.toLowerCase().replace(/\s+/g, "-")
-  const topicSlug = content.topic.toLowerCase().replace(/\s+/g, "-")
-  
-  const contentUrl = `/departments/${departmentSlug}/${branchSlug}/${yearSlug}/${subjectSlug}/${topicSlug}?content=${content.id}`
+  // Generate URL that links to correct subject from constants
+  const contentUrl = getContentUrl(content)
 
   const formatDate = (date: Date) => {
     const now = new Date()

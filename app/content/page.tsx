@@ -13,6 +13,7 @@ import { motion } from "framer-motion"
 import { Content, ContentType } from "@/lib/types"
 import { formatDistanceToNow } from "date-fns"
 import { useApprovedContent } from "@/hooks/use-approved-content"
+import { getContentUrl } from "@/lib/content-url"
 import {
   Select,
   SelectContent,
@@ -138,14 +139,8 @@ function ContentCard({ content, index }: { content: Content; index: number }) {
   const TypeIcon = typeIconMap[content.type]
   const typeColorClass = typeColorMap[content.type]
 
-  // Convert content properties to URL-friendly slugs
-  const departmentSlug = content.department.toLowerCase().replace(/\s+/g, "-")
-  const branchSlug = content.branch.toLowerCase().replace(/\s+/g, "-")
-  const yearSlug = content.year.toLowerCase().replace(/\s+/g, "-").replace("year", "").trim()
-  const subjectSlug = content.subject.toLowerCase().replace(/\s+/g, "-")
-  const topicSlug = content.topic.toLowerCase().replace(/\s+/g, "-")
-  
-  const contentUrl = `/departments/${departmentSlug}/${branchSlug}/${yearSlug}/${subjectSlug}/${topicSlug}?content=${content.id}`
+  // Generate URL that links to correct subject from constants
+  const contentUrl = getContentUrl(content)
 
   return (
     <motion.div

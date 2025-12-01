@@ -8,6 +8,7 @@ import { Content } from "@/lib/types"
 import { formatDistanceToNow } from "date-fns"
 import { useApprovedContent } from "@/hooks/use-approved-content"
 import { DefaultThumbnail } from "@/components/content/default-thumbnail"
+import { getContentUrl } from "@/lib/content-url"
 
 const typeIconMap = {
   note: FileText,
@@ -60,13 +61,8 @@ export function RecentUploads({ limit = 6 }: RecentUploadsProps) {
 function ContentCard({ content }: { content: Content }) {
   const TypeIcon = typeIconMap[content.type]
 
-  const departmentSlug = content.department.toLowerCase().replace(/\s+/g, "-")
-  const branchSlug = content.branch.toLowerCase().replace(/\s+/g, "-")
-  const yearSlug = content.year.toLowerCase().replace(/\s+/g, "-").replace("year", "").trim()
-  const subjectSlug = content.subject.toLowerCase().replace(/\s+/g, "-")
-  const topicSlug = content.topic.toLowerCase().replace(/\s+/g, "-")
-  
-  const contentUrl = `/departments/${departmentSlug}/${branchSlug}/${yearSlug}/${subjectSlug}/${topicSlug}?content=${content.id}`
+  // Generate URL that links to correct subject from constants
+  const contentUrl = getContentUrl(content)
 
   return (
     <Link href={contentUrl}>

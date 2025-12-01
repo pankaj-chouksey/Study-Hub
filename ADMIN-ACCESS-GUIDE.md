@@ -53,7 +53,7 @@ node scripts/make-admin.js your-email@example.com
 **Step 3: Update role**
 1. Click "Edit" on your user document
 2. Find the `role` field
-3. Change value from `"user"` to `"admin"`
+3. Change value from `"student"` to `"admin"`
 4. Click "Update"
 
 **Step 4: Logout and login again**
@@ -67,32 +67,22 @@ Once you have admin access, you can:
 
 ### 📋 Dashboard (`/admin`)
 - View pending approvals count
-- See recent activity
-- Quick stats overview
+- Quick access to Approvals and Content Management
+- Overview of admin tasks
 
 ### ✅ Approvals (`/admin/approvals`)
-- Review pending content
-- Approve or reject uploads
+- Review pending content uploads
+- Approve or reject upload requests
 - Preview content before approval
-- Bulk actions
+- Filter by content type and status
+- View uploader information
 
-### 👥 Users (`/admin/users`)
-- View all registered users
-- See user statistics
-- Manage user roles
-- Search and filter users
-
-### 📊 Analytics (`/admin/analytics`)
-- Upload trends
-- Popular content
-- User engagement metrics
-- Department statistics
-
-### ⚙️ Manage (`/admin/manage`)
-- Manage subjects
-- Manage branches
-- Content organization
-- System settings
+### 📄 Content Management (`/admin/content`)
+- View all content (approved, pending, rejected)
+- Search content by title, description, or uploader
+- Filter by content type and status
+- Delete content with confirmation
+- View approved content directly
 
 ---
 
@@ -179,9 +169,7 @@ node scripts/make-admin.js email@example.com
 ### Admin URLs
 - Dashboard: `/admin`
 - Approvals: `/admin/approvals`
-- Users: `/admin/users`
-- Analytics: `/admin/analytics`
-- Manage: `/admin/manage`
+- Content Management: `/admin/content`
 
 ### Check if User is Admin (MongoDB)
 ```javascript
@@ -192,7 +180,7 @@ db.users.findOne({ email: "your-email@example.com" })
 ### Remove Admin Access
 ```bash
 # Update in MongoDB Atlas
-role: "admin" → role: "user"
+role: "admin" → role: "student"
 ```
 
 ---
@@ -233,4 +221,4 @@ If you're still having issues:
 
 ---
 
-**Last Updated:** November 2024
+**Last Updated:** December 2024

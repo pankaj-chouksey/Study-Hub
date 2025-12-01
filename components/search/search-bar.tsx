@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { MOCK_CONTENT } from "@/lib/constants";
 import type { Content } from "@/lib/types";
+import { getContentUrl } from "@/lib/content-url";
 
 interface SearchResult {
   id: string;
@@ -60,7 +61,7 @@ export function SearchBar({ className }: { className?: string }) {
           id: content.id,
           title: content.title,
           type: content.type,
-          path: `/departments/${content.department}/${content.branch}/${content.year}/${content.subject}/${content.topic}`,
+          path: getContentUrl(content).split('?')[0], // Remove query params for search results
           description: content.description,
         }));
 
