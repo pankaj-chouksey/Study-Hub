@@ -1,12 +1,18 @@
-import { FileText, Video, FileQuestion, Star } from "lucide-react"
+import React from "react"
+import { FileText, Video, FileQuestion, Star, BookOpen, Calendar } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { ContentType } from "@/lib/types"
 
 interface DefaultThumbnailProps {
-  type: "note" | "video" | "pyq" | "important"
+  type: ContentType
   className?: string
 }
 
-const thumbnailConfig = {
+const thumbnailConfig: Record<ContentType, {
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>,
+  gradient: string,
+  bgPattern: string
+}> = {
   note: {
     icon: FileText,
     gradient: "from-blue-500 to-blue-600 dark:from-blue-700 dark:to-blue-800",
@@ -26,6 +32,16 @@ const thumbnailConfig = {
     icon: Star,
     gradient: "from-orange-500 to-orange-600 dark:from-orange-700 dark:to-orange-800",
     bgPattern: "from-orange-50 to-orange-100 dark:from-slate-900 dark:to-slate-800",
+  },
+  syllabus: {
+    icon: BookOpen,
+    gradient: "from-green-500 to-green-600 dark:from-green-700 dark:to-green-800",
+    bgPattern: "from-green-50 to-green-100 dark:from-slate-900 dark:to-slate-800",
+  },
+  timetable: {
+    icon: Calendar,
+    gradient: "from-pink-500 to-pink-600 dark:from-pink-700 dark:to-pink-800",
+    bgPattern: "from-pink-50 to-pink-100 dark:from-slate-900 dark:to-slate-800",
   },
 }
 
