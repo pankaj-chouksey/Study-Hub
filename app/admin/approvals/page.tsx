@@ -248,7 +248,7 @@ export default function ApprovalsPage() {
     <div className="p-8 space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold">Content Approvals</h1>
+        <h1 className="text-3xl font-light">Content Approvals</h1>
         <p className="text-muted-foreground mt-2">
           Review and approve pending content submissions
         </p>
@@ -264,7 +264,7 @@ export default function ApprovalsPage() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Pending</p>
-                <p className="text-2xl font-bold">{allPendingContent.length}</p>
+                <p className="text-2xl font-light">{allPendingContent.length}</p>
               </div>
             </div>
           </CardContent>
@@ -278,7 +278,7 @@ export default function ApprovalsPage() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Filtered</p>
-                <p className="text-2xl font-bold">{filteredContent.length}</p>
+                <p className="text-2xl font-light">{filteredContent.length}</p>
               </div>
             </div>
           </CardContent>
@@ -293,7 +293,7 @@ export default function ApprovalsPage() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Selected</p>
-                  <p className="text-2xl font-bold">{selectedItems.size}</p>
+                  <p className="text-2xl font-light">{selectedItems.size}</p>
                 </div>
               </div>
             </CardContent>

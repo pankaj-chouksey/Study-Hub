@@ -116,7 +116,7 @@ export default function UsersPage() {
     <div className="p-8 space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold">User Management</h1>
+        <h1 className="text-3xl font-light">User Management</h1>
         <p className="text-muted-foreground mt-2">
           View and manage all registered users
         </p>
@@ -132,7 +132,7 @@ export default function UsersPage() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Total Users</p>
-                <p className="text-2xl font-bold">{totalUsers}</p>
+                <p className="text-2xl font-light">{totalUsers}</p>
               </div>
             </div>
           </CardContent>
@@ -146,7 +146,7 @@ export default function UsersPage() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Students</p>
-                <p className="text-2xl font-bold">{totalStudents}</p>
+                <p className="text-2xl font-light">{totalStudents}</p>
               </div>
             </div>
           </CardContent>
@@ -160,7 +160,7 @@ export default function UsersPage() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Admins</p>
-                <p className="text-2xl font-bold">{totalAdmins}</p>
+                <p className="text-2xl font-light">{totalAdmins}</p>
               </div>
             </div>
           </CardContent>
@@ -227,13 +227,13 @@ export default function UsersPage() {
               <table className="w-full">
                 <thead className="bg-muted/50 border-b">
                   <tr>
-                    <th className="text-left p-4 font-semibold">User</th>
-                    <th className="text-left p-4 font-semibold">Role</th>
-                    <th className="text-left p-4 font-semibold">Branch</th>
-                    <th className="text-left p-4 font-semibold">Points</th>
-                    <th className="text-left p-4 font-semibold">Uploads</th>
-                    <th className="text-left p-4 font-semibold">Joined</th>
-                    <th className="text-right p-4 font-semibold">Actions</th>
+                    <th className="text-left p-4 font-normal">User</th>
+                    <th className="text-left p-4 font-normal">Role</th>
+                    <th className="text-left p-4 font-normal">Branch</th>
+                    <th className="text-left p-4 font-normal">Points</th>
+                    <th className="text-left p-4 font-normal">Uploads</th>
+                    <th className="text-left p-4 font-normal">Joined</th>
+                    <th className="text-right p-4 font-normal">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -253,7 +253,7 @@ export default function UsersPage() {
                               </AvatarFallback>
                             </Avatar>
                             <div>
-                              <p className="font-medium">{user.name}</p>
+                              <p className="font-normal">{user.name}</p>
                               <p className="text-sm text-muted-foreground">
                                 {user.email}
                               </p>
@@ -279,7 +279,7 @@ export default function UsersPage() {
                         <td className="p-4">
                           <div className="flex items-center gap-2">
                             <Award className="h-4 w-4 text-yellow-600" />
-                            <span className="font-medium">{user.points}</span>
+                            <span className="font-normal">{user.points}</span>
                           </div>
                         </td>
                         <td className="p-4">
@@ -361,7 +361,7 @@ export default function UsersPage() {
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold">{selectedUser.name}</h3>
+                  <h3 className="text-xl font-light">{selectedUser.name}</h3>
                   <div className="flex items-center gap-2 mt-1">
                     <Mail className="h-4 w-4 text-muted-foreground" />
                     <p className="text-sm text-muted-foreground">
@@ -394,17 +394,17 @@ export default function UsersPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-muted-foreground">Branch</p>
-                  <p className="font-medium">{selectedUser.branch}</p>
+                  <p className="font-normal">{selectedUser.branch}</p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Year</p>
-                  <p className="font-medium">{selectedUser.year}</p>
+                  <p className="font-normal">{selectedUser.year}</p>
                 </div>
               </div>
 
               {/* Stats */}
               <div>
-                <h4 className="font-semibold mb-3">Statistics</h4>
+                <h4 className="font-light mb-3">Statistics</h4>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {(() => {
                     const stats = getUserStats(selectedUser.id);
@@ -412,7 +412,7 @@ export default function UsersPage() {
                       <>
                         <div className="bg-muted/50 p-3 rounded-lg">
                           <p className="text-xs text-muted-foreground">Points</p>
-                          <p className="text-xl font-bold">
+                          <p className="text-xl font-light">
                             {selectedUser.points}
                           </p>
                         </div>
@@ -420,13 +420,13 @@ export default function UsersPage() {
                           <p className="text-xs text-muted-foreground">
                             Uploads
                           </p>
-                          <p className="text-xl font-bold">
+                          <p className="text-xl font-light">
                             {stats.totalUploads}
                           </p>
                         </div>
                         <div className="bg-muted/50 p-3 rounded-lg">
                           <p className="text-xs text-muted-foreground">Views</p>
-                          <p className="text-xl font-bold">
+                          <p className="text-xl font-light">
                             {stats.totalViews.toLocaleString()}
                           </p>
                         </div>
@@ -434,7 +434,7 @@ export default function UsersPage() {
                           <p className="text-xs text-muted-foreground">
                             Downloads
                           </p>
-                          <p className="text-xl font-bold">
+                          <p className="text-xl font-light">
                             {stats.totalDownloads.toLocaleString()}
                           </p>
                         </div>

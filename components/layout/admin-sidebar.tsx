@@ -42,7 +42,7 @@ export function AdminSidebar({ pendingCount = 0 }: AdminSidebarProps) {
     <aside className="w-64 border-r bg-background h-screen sticky top-0 flex flex-col">
       {/* Header */}
       <div className="p-6">
-        <Link href="/admin" className="flex items-center gap-2 font-bold text-xl">
+        <Link href="/admin" className="flex items-center gap-2 font-light text-xl">
           <BookOpen className="h-6 w-6 text-primary" />
           <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Admin Panel
@@ -63,7 +63,7 @@ export function AdminSidebar({ pendingCount = 0 }: AdminSidebarProps) {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
+                "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-normal transition-colors",
                 isActive
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -87,7 +87,7 @@ export function AdminSidebar({ pendingCount = 0 }: AdminSidebarProps) {
       <div className="p-4">
         <Link
           href="/"
-          className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+          className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-normal text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
         >
           <BookOpen className="h-5 w-5" />
           <span>Back to Platform</span>

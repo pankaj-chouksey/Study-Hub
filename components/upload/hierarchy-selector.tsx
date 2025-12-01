@@ -28,10 +28,15 @@ export function HierarchySelector({ onSelect, value }: HierarchySelectorProps) {
   const branches = selection.department
     ? DEPARTMENTS.find((d) => d.slug === selection.department)?.branches || []
     : []
-  const years = selection.branch
-    ? branches.find((b) => b.slug === selection.branch)?.years || []
-    : []
-  // Subjects and topics are free-text inputs since they're dynamic
+  const selectedBranch = selection.branch
+    ? branches.find((b) => b.slug === selection.branch)
+    : null
+  const years = selectedBranch?.years || []
+  // Get subjects based on selected branch and year
+  const selectedYear = selection.year
+    ? years.find((y) => y.level.toString() === selection.year)
+    : null
+  const subjects = selectedYear?.subjects || []
 
   // Update parent component when selection changes
   useEffect(() => {
@@ -154,18 +159,35 @@ export function HierarchySelector({ onSelect, value }: HierarchySelectorProps) {
         </Select>
       </div>
 
-      {/* Subject Input */}
+      {/* Subject Selector */}
       <div className="space-y-2">
         <Label htmlFor="subject">Subject *</Label>
-        <Input
-          id="subject"
-          placeholder="e.g., Data Structures, Mathematics, Physics"
-          value={selection.subject || ""}
-          onChange={(e) => handleSubjectChange(e.target.value)}
-          disabled={!selection.year}
-        />
+        <Select
+          value={selection.subject}
+          onValueChange={handleSubjectChange}
+          disabled={!selection.year || subjects.length === 0}
+        >
+          <SelectTrigger id="subject" className="w-full">
+            <SelectValue placeholder="Select Subject" />
+          </SelectTrigger>
+          <SelectContent>
+            {subjects.length === 0 && selection.year ? (
+              <SelectItem value="no-subjects" disabled>
+                No subjects available for this semester
+              </SelectItem>
+            ) : (
+              subjects.map((subject) => (
+                <SelectItem key={subject.id} value={subject.name}>
+                  {subject.name} {subject.code && `(${subject.code})`}
+                </SelectItem>
+              ))
+            )}
+          </SelectContent>
+        </Select>
         <p className="text-xs text-muted-foreground">
-          Enter the subject name
+          {subjects.length === 0 && selection.year
+            ? "No subjects defined for this semester"
+            : "Select a subject from the list"}
         </p>
       </div>
 

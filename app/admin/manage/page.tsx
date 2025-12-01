@@ -110,7 +110,7 @@ export default function ManagePage() {
     <div className="p-8 space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold">Content Management</h1>
+        <h1 className="text-3xl font-light">Content Management</h1>
         <p className="text-muted-foreground mt-2">
           Manage departments, branches, years, and subjects
         </p>
@@ -150,7 +150,7 @@ export default function ManagePage() {
                     <CardContent className="p-4">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <h3 className="font-semibold">{dept.name}</h3>
+                          <h3 className="font-normal">{dept.name}</h3>
                           <p className="text-sm text-muted-foreground mt-1">
                             {dept.branches.length} branches
                           </p>
@@ -227,7 +227,7 @@ export default function ManagePage() {
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
-                            <h3 className="font-semibold">{branch.name}</h3>
+                            <h3 className="font-normal">{branch.name}</h3>
                             <p className="text-sm text-muted-foreground mt-1">
                               {branch.years.length} years
                             </p>
@@ -332,7 +332,7 @@ export default function ManagePage() {
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
-                            <h3 className="font-semibold">{year.name}</h3>
+                            <h3 className="font-normal">{year.name}</h3>
                             <p className="text-sm text-muted-foreground mt-1">
                               Level {year.level}
                             </p>
@@ -460,7 +460,7 @@ export default function ManagePage() {
                           <div className="flex-1">
                             <div className="flex items-center gap-3">
                               <Badge variant="secondary">{subject.code}</Badge>
-                              <h3 className="font-semibold">{subject.name}</h3>
+                              <h3 className="font-normal">{subject.name}</h3>
                             </div>
                             <p className="text-sm text-muted-foreground mt-1">
                               {subject.topics.length} topics

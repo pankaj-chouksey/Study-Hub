@@ -67,7 +67,7 @@ export default function AnalyticsPage() {
     <div className="p-8 space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold">Analytics</h1>
+        <h1 className="text-3xl font-light">Analytics</h1>
         <p className="text-muted-foreground mt-2">
           Platform insights and performance metrics
         </p>
@@ -79,10 +79,10 @@ export default function AnalyticsPage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className="text-sm font-normal text-muted-foreground">
                   Total Content
                 </p>
-                <p className="text-3xl font-bold mt-2">{totalContent}</p>
+                <p className="text-3xl font-light mt-2">{totalContent}</p>
                 <p className="text-xs text-muted-foreground mt-1">
                   {approvedContent.length} approved
                 </p>
@@ -98,10 +98,10 @@ export default function AnalyticsPage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className="text-sm font-normal text-muted-foreground">
                   Total Views
                 </p>
-                <p className="text-3xl font-bold mt-2">
+                <p className="text-3xl font-light mt-2">
                   {totalViews.toLocaleString()}
                 </p>
                 <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
@@ -120,10 +120,10 @@ export default function AnalyticsPage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className="text-sm font-normal text-muted-foreground">
                   Total Downloads
                 </p>
-                <p className="text-3xl font-bold mt-2">
+                <p className="text-3xl font-light mt-2">
                   {totalDownloads.toLocaleString()}
                 </p>
                 <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
@@ -142,10 +142,10 @@ export default function AnalyticsPage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className="text-sm font-normal text-muted-foreground">
                   Avg Rating
                 </p>
-                <p className="text-3xl font-bold mt-2">
+                <p className="text-3xl font-light mt-2">
                   {avgRating.toFixed(1)}
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">
@@ -183,7 +183,7 @@ export default function AnalyticsPage() {
                 return (
                   <div key={type}>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium capitalize">
+                      <span className="text-sm font-normal capitalize">
                         {type === "pyq" ? "PYQs" : type}
                       </span>
                       <span className="text-sm text-muted-foreground">
@@ -222,7 +222,7 @@ export default function AnalyticsPage() {
                         style={{ height: `${height}%` }}
                         title={`${data.uploads} uploads`}
                       />
-                      <span className="absolute -top-6 text-xs font-medium">
+                      <span className="absolute -top-6 text-xs font-normal">
                         {data.uploads}
                       </span>
                     </div>
@@ -258,11 +258,11 @@ export default function AnalyticsPage() {
                     key={content.id}
                     className="flex items-start gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors"
                   >
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center font-light text-primary">
                       {index + 1}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium truncate">{content.title}</p>
+                      <p className="font-normal truncate">{content.title}</p>
                       <div className="flex items-center gap-3 mt-1 text-sm text-muted-foreground">
                         <span className="flex items-center gap-1">
                           <Eye className="h-3 w-3" />
@@ -303,11 +303,11 @@ export default function AnalyticsPage() {
                     key={stat.user.id}
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors"
                   >
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center font-light text-primary">
                       {index + 1}
                     </div>
                     <div className="flex-1">
-                      <p className="font-medium">{stat.user.name}</p>
+                      <p className="font-normal">{stat.user.name}</p>
                       <div className="flex items-center gap-3 mt-1 text-sm text-muted-foreground">
                         <span className="flex items-center gap-1">
                           <FileText className="h-3 w-3" />
@@ -338,7 +338,7 @@ export default function AnalyticsPage() {
               <p className="text-sm text-muted-foreground mb-2">
                 Avg Views per Content
               </p>
-              <p className="text-3xl font-bold">
+              <p className="text-3xl font-light">
                 {Math.round(totalViews / totalContent)}
               </p>
             </div>
@@ -346,7 +346,7 @@ export default function AnalyticsPage() {
               <p className="text-sm text-muted-foreground mb-2">
                 Avg Downloads per Content
               </p>
-              <p className="text-3xl font-bold">
+              <p className="text-3xl font-light">
                 {Math.round(totalDownloads / totalContent)}
               </p>
             </div>
@@ -354,7 +354,7 @@ export default function AnalyticsPage() {
               <p className="text-sm text-muted-foreground mb-2">
                 Download Rate
               </p>
-              <p className="text-3xl font-bold">
+              <p className="text-3xl font-light">
                 {((totalDownloads / totalViews) * 100).toFixed(1)}%
               </p>
             </div>

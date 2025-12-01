@@ -122,7 +122,7 @@ export function PendingApprovals({
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
-                        <h3 className="font-semibold text-lg mb-1">{item.title}</h3>
+                        <h3 className="font-light text-lg mb-1">{item.title}</h3>
                         <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
                           {item.description}
                         </p>
@@ -205,7 +205,7 @@ export function PendingApprovals({
 
           {selectedContent && (
             <div className="py-4">
-              <p className="font-medium">{selectedContent.title}</p>
+              <p className="font-normal">{selectedContent.title}</p>
               <p className="text-sm text-muted-foreground mt-1">
                 by {selectedContent.uploader?.name || "Unknown User"}
               </p>
@@ -243,7 +243,7 @@ export function PendingApprovals({
                   </Badge>
                   <Badge variant="secondary">{previewContent.status}</Badge>
                 </div>
-                <h2 className="text-2xl font-bold">{previewContent.title}</h2>
+                <h2 className="text-2xl font-light">{previewContent.title}</h2>
               </div>
 
               {/* Uploader Info */}
@@ -255,7 +255,7 @@ export function PendingApprovals({
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="font-medium">{previewContent.uploader?.name || "Unknown User"}</p>
+                  <p className="font-normal">{previewContent.uploader?.name || "Unknown User"}</p>
                   <p className="text-sm text-muted-foreground">
                     {previewContent.uploader?.email || "No email"}
                   </p>
@@ -264,33 +264,33 @@ export function PendingApprovals({
 
               {/* Description */}
               <div>
-                <h3 className="font-semibold mb-2">Description</h3>
+                <h3 className="font-light mb-2">Description</h3>
                 <p className="text-muted-foreground">{previewContent.description}</p>
               </div>
 
               {/* Hierarchy */}
               <div>
-                <h3 className="font-semibold mb-2">Location</h3>
+                <h3 className="font-light mb-2">Location</h3>
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   <div>
                     <span className="text-muted-foreground">Department:</span>{" "}
-                    <span className="font-medium">{previewContent.department}</span>
+                    <span className="font-normal">{previewContent.department}</span>
                   </div>
                   <div>
                     <span className="text-muted-foreground">Branch:</span>{" "}
-                    <span className="font-medium">{previewContent.branch}</span>
+                    <span className="font-normal">{previewContent.branch}</span>
                   </div>
                   <div>
                     <span className="text-muted-foreground">Year:</span>{" "}
-                    <span className="font-medium">{previewContent.year}</span>
+                    <span className="font-normal">{previewContent.year}</span>
                   </div>
                   <div>
                     <span className="text-muted-foreground">Subject:</span>{" "}
-                    <span className="font-medium">{previewContent.subject}</span>
+                    <span className="font-normal">{previewContent.subject}</span>
                   </div>
                   <div className="col-span-2">
                     <span className="text-muted-foreground">Topic:</span>{" "}
-                    <span className="font-medium">{previewContent.topic}</span>
+                    <span className="font-normal">{previewContent.topic}</span>
                   </div>
                 </div>
               </div>
@@ -298,7 +298,7 @@ export function PendingApprovals({
               {/* File/Video URL */}
               {previewContent.fileUrl && (
                 <div>
-                  <h3 className="font-semibold mb-2">File</h3>
+                  <h3 className="font-light mb-2">File</h3>
                   <a
                     href={previewContent.fileUrl}
                     target="_blank"
@@ -312,7 +312,7 @@ export function PendingApprovals({
 
               {previewContent.videoUrl && (
                 <div>
-                  <h3 className="font-semibold mb-2">Video</h3>
+                  <h3 className="font-light mb-2">Video</h3>
                   <a
                     href={previewContent.videoUrl}
                     target="_blank"
@@ -339,22 +339,22 @@ export function PendingApprovals({
               <div className="grid grid-cols-3 gap-4 p-3 bg-muted rounded-lg text-sm">
                 <div>
                   <p className="text-muted-foreground">Views</p>
-                  <p className="font-semibold">{previewContent.views}</p>
+                  <p className="font-light">{previewContent.views}</p>
                 </div>
                 <div>
                   <p className="text-muted-foreground">Downloads</p>
-                  <p className="font-semibold">{previewContent.downloads}</p>
+                  <p className="font-light">{previewContent.downloads}</p>
                 </div>
                 <div>
                   <p className="text-muted-foreground">Rating</p>
-                  <p className="font-semibold">{previewContent.rating.toFixed(1)}</p>
+                  <p className="font-light">{previewContent.rating.toFixed(1)}</p>
                 </div>
               </div>
 
               {/* Tags */}
               {previewContent.tags && previewContent.tags.length > 0 && (
                 <div>
-                  <h3 className="font-semibold mb-2">Tags</h3>
+                  <h3 className="font-light mb-2">Tags</h3>
                   <div className="flex flex-wrap gap-2">
                     {previewContent.tags.map((tag, index) => (
                       <Badge key={index} variant="secondary">

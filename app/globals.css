@@ -115,15 +115,16 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    font-family: var(--font-sans);
   }
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
   }
   
-  /* Ensure font consistency across all elements */
-  * {
-    font-family: inherit;
+  /* Override for specific elements that might need different fonts */
+  code, pre, kbd, samp {
+    font-family: var(--font-mono);
   }
   
   /* Smooth theme transitions */
@@ -135,6 +136,12 @@
   
   /* Mobile-optimized typography */
   @media (max-width: 640px) {
+    html, body {
+      font-family: var(--font-sans) !important;
+    }
+    * {
+      font-family: var(--font-sans) !important;
+    }
     h1 {
       @apply text-3xl leading-tight;
     }

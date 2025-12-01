@@ -505,12 +505,84 @@ export const DEPARTMENTS: Department[] = [
           {
             level: 1,
             name: "Semester 1",
-            subjects: []
+            subjects: [
+              {
+                id: "mathematical-concepts-ai",
+                name: "Mathematical Concepts for AI",
+                code: "AL101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "basic-computer-engineering",
+                name: "Basic Computer Engineering",
+                code: "AL102",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "principles-electronics",
+                name: "Principles of Electronics",
+                code: "AL103",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "fundamentals-physics",
+                name: "Fundamentals of Physics",
+                code: "AL104",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "communication-skills",
+                name: "Communication Skills",
+                code: "AL105",
+                yearId: "1",
+                topics: []
+              }
+            ]
           },
           {
             level: 2,
             name: "Semester 2",
-            subjects: []
+            subjects: [
+              {
+                id: "discrete-structures",
+                name: "Discrete Structures",
+                code: "AL201",
+                yearId: "2",
+                topics: []
+              },
+              {
+                id: "statistical-methods",
+                name: "Statistical Methods",
+                code: "AL202",
+                yearId: "2",
+                topics: []
+              },
+              {
+                id: "digital-logic-design",
+                name: "Digital Logic Design",
+                code: "AL203",
+                yearId: "2",
+                topics: []
+              },
+              {
+                id: "object-oriented-programming",
+                name: "Object Oriented Programming",
+                code: "AL204",
+                yearId: "2",
+                topics: []
+              },
+              {
+                id: "introduction-artificial-intelligence",
+                name: "Introduction to Artificial Intelligence",
+                code: "AL205",
+                yearId: "2",
+                topics: []
+              }
+            ]
           },
           {
             level: 3,
