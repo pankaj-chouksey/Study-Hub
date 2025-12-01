@@ -1,20 +1,23 @@
 "use client"
 
+import React from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
-import { Download, Star, FileText, Video, FileQuestion, Sparkles } from "lucide-react"
-import { Content } from "@/lib/types"
+import { Download, Star, FileText, Video, FileQuestion, Sparkles, BookOpen, Calendar } from "lucide-react"
+import { Content, ContentType } from "@/lib/types"
 import { formatDistanceToNow } from "date-fns"
 import { useApprovedContent } from "@/hooks/use-approved-content"
 import { DefaultThumbnail } from "@/components/content/default-thumbnail"
 import { getContentUrl } from "@/lib/content-url"
 
-const typeIconMap = {
+const typeIconMap: Record<ContentType, React.ComponentType<{ className?: string }>> = {
   note: FileText,
   video: Video,
   pyq: FileQuestion,
-  important: Sparkles
+  important: Sparkles,
+  syllabus: BookOpen,
+  timetable: Calendar
 }
 
 interface RecentUploadsProps {

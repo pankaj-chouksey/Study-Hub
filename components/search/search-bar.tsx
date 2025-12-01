@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Search, FileText, Video, FileQuestion, Star, Loader2 } from "lucide-react";
+import { Search, FileText, Video, FileQuestion, Star, Loader2, BookOpen, Calendar } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { MOCK_CONTENT } from "@/lib/constants";
-import type { Content } from "@/lib/types";
+import type { Content, ContentType } from "@/lib/types";
 import { getContentUrl } from "@/lib/content-url";
 
 interface SearchResult {
@@ -17,11 +17,13 @@ interface SearchResult {
   description?: string;
 }
 
-const typeIcons = {
+const typeIcons: Record<ContentType, React.ComponentType<{ className?: string }>> = {
   note: FileText,
   video: Video,
   pyq: FileQuestion,
   important: Star,
+  syllabus: BookOpen,
+  timetable: Calendar,
 };
 
 export function SearchBar({ className }: { className?: string }) {
