@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { MainLayout } from "@/components/layout/main-layout"
@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Eye, Download, Star, FileText, Video, FileQuestion, Sparkles, Filter } from "lucide-react"
+import { Eye, Download, Star, FileText, Video, FileQuestion, Sparkles, Filter, Calendar, BookOpen } from "lucide-react"
 import { motion } from "framer-motion"
 import { Content, ContentType } from "@/lib/types"
 import { formatDistanceToNow } from "date-fns"
@@ -22,18 +22,22 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const typeIconMap = {
+const typeIconMap: Record<ContentType, React.ComponentType<{ className?: string }>> = {
   note: FileText,
   video: Video,
   pyq: FileQuestion,
-  important: Sparkles
+  important: Sparkles,
+  syllabus: BookOpen,
+  timetable: Calendar
 }
 
-const typeColorMap = {
+const typeColorMap: Record<ContentType, string> = {
   note: "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-400",
   video: "bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-400",
   pyq: "bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-400",
-  important: "bg-teal-100 text-teal-700 dark:bg-teal-950 dark:text-teal-400"
+  important: "bg-teal-100 text-teal-700 dark:bg-teal-950 dark:text-teal-400",
+  syllabus: "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-400",
+  timetable: "bg-pink-100 text-pink-700 dark:bg-pink-950 dark:text-pink-400"
 }
 
 export default function AllContentPage() {
@@ -85,6 +89,8 @@ export default function AllContentPage() {
                 <SelectItem value="video">Videos</SelectItem>
                 <SelectItem value="pyq">PYQs</SelectItem>
                 <SelectItem value="important">Important</SelectItem>
+                <SelectItem value="syllabus">Syllabus</SelectItem>
+                <SelectItem value="timetable">Time Table</SelectItem>
               </SelectContent>
             </Select>
           </div>
