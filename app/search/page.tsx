@@ -13,13 +13,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { Content } from "@/lib/types";
+import type { Content, ContentType } from "@/lib/types";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { PageTransition } from "@/components/animations/page-transition";
 import { useApprovedContent } from "@/hooks/use-approved-content";
 
 type SortOption = "relevance" | "recent" | "popular" | "rating";
-type FilterType = "all" | "note" | "video" | "pyq" | "important";
+type FilterType = "all" | ContentType;
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
@@ -134,6 +134,8 @@ export default function SearchPage() {
                     <SelectItem value="video">Videos</SelectItem>
                     <SelectItem value="pyq">PYQs</SelectItem>
                     <SelectItem value="important">Important Questions</SelectItem>
+                    <SelectItem value="syllabus">Syllabus</SelectItem>
+                    <SelectItem value="timetable">Time Table</SelectItem>
                   </SelectContent>
                 </Select>
 
