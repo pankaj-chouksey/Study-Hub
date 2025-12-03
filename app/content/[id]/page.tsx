@@ -353,10 +353,46 @@ export default function ContentViewPage() {
                 <Button 
                   size="lg" 
                   className="gap-2"
-                  onClick={() => window.open(content.fileUrl, '_blank')}
+                  onClick={async () => {
+                    try {
+                      // Try to download the file properly
+                      const link = document.createElement('a')
+                      link.href = content.fileUrl
+                      // Extract filename from URL or use title
+                      const urlParts = content.fileUrl.split('/')
+                      const urlFilename = urlParts[urlParts.length - 1].split('?')[0]
+                      const filename = urlFilename.endsWith('.pdf') 
+                        ? urlFilename 
+                        : `${content.title || 'document'}.pdf`
+                      link.download = filename
+                      link.target = '_blank'
+                      link.rel = 'noopener noreferrer'
+                      
+                      // For some browsers, we need to fetch and create a blob
+                      try {
+                        const response = await fetch(content.fileUrl)
+                        const blob = await response.blob()
+                        const blobUrl = URL.createObjectURL(blob)
+                        link.href = blobUrl
+                        document.body.appendChild(link)
+                        link.click()
+                        document.body.removeChild(link)
+                        // Clean up the blob URL after a delay
+                        setTimeout(() => URL.revokeObjectURL(blobUrl), 100)
+                      } catch (fetchError) {
+                        // Fallback to direct link if fetch fails (CORS issues)
+                        document.body.appendChild(link)
+                        link.click()
+                        document.body.removeChild(link)
+                      }
+                    } catch (error) {
+                      // Final fallback: open in new tab
+                      window.open(content.fileUrl, '_blank')
+                    }
+                  }}
                 >
                   <Download className="w-4 h-4" />
-                  Download
+                  Download PDF
                 </Button>
               )}
               <Button variant="outline" size="lg" className="gap-2">
