@@ -24,6 +24,7 @@ import { Search, Trash2, Edit, Eye, Loader2 } from "lucide-react"
 import { Content, ContentType } from "@/lib/types"
 import { toast } from "sonner"
 import Link from "next/link"
+import { getContentUrl } from "@/lib/content-url"
 
 export default function ContentManagementPage() {
   const [content, setContent] = useState<Content[]>([])
@@ -243,7 +244,7 @@ export default function ContentManagementPage() {
                   <div className="flex items-center gap-2">
                     {item.status === "approved" && (
                       <Button variant="outline" size="sm" asChild>
-                        <Link href={`/departments/${item.department.toLowerCase().replace(/\s+/g, "-")}/${item.branch.toLowerCase().replace(/\s+/g, "-")}/${item.year}/${item.subject.toLowerCase().replace(/\s+/g, "-")}/${item.topic.toLowerCase().replace(/\s+/g, "-")}?content=${item.id}`}>
+                        <Link href={getContentUrl(item)}>
                           <Eye className="h-4 w-4 mr-2" />
                           View
                         </Link>

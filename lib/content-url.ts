@@ -88,8 +88,18 @@ export function findSubjectMatch(content: Content): {
 /**
  * Generates a content URL that links to the correct subject page
  * Falls back to direct content link if subject doesn't match
+ * For content types without subject/topic (syllabus, timetable, pyq, important), uses dedicated content page
  */
 export function getContentUrl(content: Content): string {
+  // Content types that don't require subject/topic
+  const contentTypesWithoutSubject = ["syllabus", "timetable", "pyq", "important"]
+  
+  // If content type doesn't require subject/topic, or if subject/topic are empty
+  if (contentTypesWithoutSubject.includes(content.type) || !content.subject || !content.topic || content.subject.trim() === "" || content.topic.trim() === "") {
+    // Use dedicated content viewing page
+    return `/content/${content.id}`
+  }
+  
   const subjectMatch = findSubjectMatch(content)
   const topicSlug = content.topic.toLowerCase().replace(/\s+/g, "-")
   
