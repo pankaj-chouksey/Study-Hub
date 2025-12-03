@@ -84,8 +84,24 @@ export default function UploadPage() {
   }
 
   const validateForm = (): boolean => {
+    const requiresSubject = contentType !== "syllabus" && contentType !== "timetable"
+    
     if (!hierarchySelection) {
-      toast.error("Please select department, branch, year, subject, and topic")
+      const requiredFields = requiresSubject 
+        ? "department, branch, semester, subject, and topic"
+        : "department, branch, and semester"
+      toast.error(`Please select ${requiredFields}`)
+      return false
+    }
+
+    if (!hierarchySelection.department || !hierarchySelection.branch || !hierarchySelection.year) {
+      const fieldName = contentType === "syllabus" || contentType === "timetable" ? "year" : "semester"
+      toast.error(`Please select department, branch, and ${fieldName}`)
+      return false
+    }
+
+    if (requiresSubject && (!hierarchySelection.subject || !hierarchySelection.topic)) {
+      toast.error("Please select subject and topic")
       return false
     }
 
@@ -140,6 +156,9 @@ export default function UploadPage() {
         return
       }
 
+      // For syllabus and timetable, subject and topic should be empty strings
+      const requiresSubject = contentType !== "syllabus" && contentType !== "timetable"
+      
       // Upload content to MongoDB
       const response = await fetch("/api/content", {
         method: "POST",
@@ -153,8 +172,8 @@ export default function UploadPage() {
           department: hierarchySelection!.department,
           branch: hierarchySelection!.branch,
           year: hierarchySelection!.year,
-          subject: hierarchySelection!.subject,
-          topic: hierarchySelection!.topic,
+          subject: requiresSubject ? (hierarchySelection!.subject || "") : "",
+          topic: requiresSubject ? (hierarchySelection!.topic || "") : "",
           fileUrl: uploadType === "file" ? fileUrl : undefined,
           videoUrl: uploadType === "video" ? youtubeUrl : undefined,
           uploaderId: session.user.id,
@@ -174,6 +193,7 @@ export default function UploadPage() {
         // Reset form
         setHierarchySelection(null);
         setSelectedFile(null);
+        setFileUrl("");
         setYoutubeUrl("");
         setTitle("");
         setDescription("");
@@ -237,23 +257,17 @@ export default function UploadPage() {
             </CardHeader>
 
             <CardContent className="space-y-6">
-              {/* Hierarchy Selector */}
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Select Location</h3>
-                <HierarchySelector
-                  onSelect={handleHierarchySelect}
-                  value={hierarchySelection || undefined}
-                />
-              </div>
-
-              <Separator />
-
-              {/* Content Type */}
+              {/* Content Type - Select First */}
               <div className="space-y-2">
                 <Label htmlFor="content-type">Content Type *</Label>
                 <Select
                   value={contentType}
-                  onValueChange={(value) => setContentType(value as ContentType)}
+                  onValueChange={(value) => {
+                    const newType = value as ContentType
+                    setContentType(newType)
+                    // Reset hierarchy selection when content type changes
+                    setHierarchySelection(null)
+                  }}
                 >
                   <SelectTrigger id="content-type" className="w-full">
                     <SelectValue placeholder="Select content type" />
@@ -267,7 +281,24 @@ export default function UploadPage() {
                     <SelectItem value="timetable">Time Table</SelectItem>
                   </SelectContent>
                 </Select>
+                <p className="text-xs text-muted-foreground">
+                  Select the type of content you want to upload
+                </p>
               </div>
+
+              <Separator />
+
+              {/* Hierarchy Selector - Show only after content type is selected */}
+              {contentType && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">Select Location</h3>
+                  <HierarchySelector
+                    onSelect={handleHierarchySelect}
+                    value={hierarchySelection || undefined}
+                    contentType={contentType}
+                  />
+                </div>
+              )}
 
               {/* Title */}
               <div className="space-y-2">

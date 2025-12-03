@@ -32,7 +32,8 @@ const ContentSchema = new Schema<IContent>(
     },
     description: {
       type: String,
-      required: [true, "Please provide a description"],
+      required: false,
+      default: "",
     },
     type: {
       type: String,
@@ -59,12 +60,14 @@ const ContentSchema = new Schema<IContent>(
     },
     subject: {
       type: String,
-      required: true,
+      required: false,
+      default: "",
       index: true,
     },
     topic: {
       type: String,
-      required: true,
+      required: false,
+      default: "",
     },
     uploaderId: {
       type: Schema.Types.ObjectId,
@@ -99,11 +102,30 @@ const ContentSchema = new Schema<IContent>(
   }
 );
 
+// Pre-save hook to ensure optional fields have defaults
+ContentSchema.pre("save", function (next) {
+  // Ensure description, subject, and topic have default values if not provided
+  if (!this.description) {
+    this.description = "";
+  }
+  if (!this.subject) {
+    this.subject = "";
+  }
+  if (!this.topic) {
+    this.topic = "";
+  }
+  next();
+});
+
 // Compound index for efficient queries
 ContentSchema.index({ department: 1, branch: 1, year: 1, subject: 1 });
 ContentSchema.index({ status: 1, createdAt: -1 });
 
-const Content: Model<IContent> =
-  mongoose.models.Content || mongoose.model<IContent>("Content", ContentSchema);
+// Delete existing model if it exists to force recompilation with new schema
+if (mongoose.models.Content) {
+  delete mongoose.models.Content;
+}
+
+const Content: Model<IContent> = mongoose.model<IContent>("Content", ContentSchema);
 
 export default Content;

@@ -77,9 +77,29 @@ export async function POST(request: NextRequest) {
     } = body;
 
     // Validate required fields
-    if (!title || !description || !type || !uploaderId) {
+    if (!title || !type || !uploaderId) {
       return NextResponse.json(
-        { success: false, error: "Missing required fields" },
+        { success: false, error: "Missing required fields: title, type, and uploaderId are required" },
+        { status: 400 }
+      );
+    }
+
+    // Description is optional, use empty string if not provided
+    const contentDescription = description || ""
+
+    // Validate that either fileUrl or videoUrl is provided
+    if (!fileUrl && !videoUrl) {
+      return NextResponse.json(
+        { success: false, error: "Either fileUrl or videoUrl must be provided" },
+        { status: 400 }
+      );
+    }
+
+    // For content types that require subject and topic (not syllabus/timetable)
+    const requiresSubject = type !== "syllabus" && type !== "timetable"
+    if (requiresSubject && (!subject || !topic)) {
+      return NextResponse.json(
+        { success: false, error: "Subject and topic are required for this content type" },
         { status: 400 }
       );
     }
@@ -93,22 +113,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create content
-    const content = await Content.create({
+    // Create content - always provide defaults for optional fields
+    const contentData: any = {
       title,
-      description,
+      description: contentDescription || "",
       type,
-      fileUrl,
-      videoUrl,
       department,
       branch,
       year,
-      subject,
-      topic,
+      subject: subject || "",
+      topic: topic || "",
       uploaderId,
-      tags,
+      tags: tags || [],
       status: "pending",
-    });
+    };
+
+    // Only include fileUrl or videoUrl if provided
+    if (fileUrl) {
+      contentData.fileUrl = fileUrl;
+    }
+    if (videoUrl) {
+      contentData.videoUrl = videoUrl;
+    }
+
+    const content = await Content.create(contentData);
 
     // Populate uploader info
     await content.populate("uploaderId", "name email avatar role");

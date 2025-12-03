@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import {
@@ -11,17 +11,40 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { DEPARTMENTS } from "@/lib/constants"
-import { HierarchySelection } from "@/lib/types"
+import { HierarchySelection, ContentType } from "@/lib/types"
 
 interface HierarchySelectorProps {
   onSelect: (selection: HierarchySelection) => void
   value?: Partial<HierarchySelection>
+  contentType?: ContentType
 }
 
-export function HierarchySelector({ onSelect, value }: HierarchySelectorProps) {
+export function HierarchySelector({ onSelect, value, contentType }: HierarchySelectorProps) {
   const [selection, setSelection] = useState<Partial<HierarchySelection>>(
     value || {}
   )
+  const skipCallbackRef = useRef(false)
+  const onSelectRef = useRef(onSelect)
+
+  // Keep onSelect ref up to date
+  useEffect(() => {
+    onSelectRef.current = onSelect
+  }, [onSelect])
+
+  // For syllabus and timetable, subject and topic are optional
+  const requiresSubject = contentType !== "syllabus" && contentType !== "timetable"
+
+  // Sync with value prop only when it's explicitly reset (null/undefined)
+  useEffect(() => {
+    if (value === undefined || value === null) {
+      // Only reset if we have something selected
+      const hasSelection = selection.department || selection.branch || selection.year || selection.subject || selection.topic
+      if (hasSelection) {
+        skipCallbackRef.current = true
+        setSelection({})
+      }
+    }
+  }, [value])
 
   // Get available options based on current selection
   const departments = DEPARTMENTS
@@ -40,16 +63,34 @@ export function HierarchySelector({ onSelect, value }: HierarchySelectorProps) {
 
   // Update parent component when selection changes
   useEffect(() => {
-    if (
+    // Skip callback if this is an internal reset from prop sync
+    if (skipCallbackRef.current) {
+      skipCallbackRef.current = false
+      return
+    }
+
+    // Don't call onSelect if selection is empty or incomplete
+    if (!selection.department || !selection.branch || !selection.year) {
+      return
+    }
+
+    const hasRequiredFields = 
       selection.department &&
       selection.branch &&
       selection.year &&
-      selection.subject &&
-      selection.topic
-    ) {
-      onSelect(selection as HierarchySelection)
+      (!requiresSubject || (selection.subject && selection.topic))
+    
+    if (hasRequiredFields) {
+      // For syllabus/timetable, use empty strings for subject/topic if not provided
+      onSelectRef.current({
+        department: selection.department!,
+        branch: selection.branch!,
+        year: selection.year!,
+        subject: selection.subject || "",
+        topic: selection.topic || "",
+      } as HierarchySelection)
     }
-  }, [selection, onSelect])
+  }, [selection, requiresSubject])
 
   const handleDepartmentChange = (departmentSlug: string) => {
     setSelection({
@@ -140,71 +181,81 @@ export function HierarchySelector({ onSelect, value }: HierarchySelectorProps) {
 
       {/* Year Selector */}
       <div className="space-y-2">
-        <Label htmlFor="year">Semester *</Label>
+        <Label htmlFor="year">
+          {contentType === "syllabus" || contentType === "timetable" ? "Year *" : "Semester *"}
+        </Label>
         <Select
           value={selection.year}
           onValueChange={handleYearChange}
           disabled={!selection.branch}
         >
           <SelectTrigger id="year" className="w-full">
-            <SelectValue placeholder="Select Semester" />
+            <SelectValue placeholder={contentType === "syllabus" || contentType === "timetable" ? "Select Year" : "Select Semester"} />
           </SelectTrigger>
           <SelectContent>
-            {years.map((year) => (
-              <SelectItem key={year.level.toString()} value={year.level.toString()}>
-                {year.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Subject Selector */}
-      <div className="space-y-2">
-        <Label htmlFor="subject">Subject *</Label>
-        <Select
-          value={selection.subject}
-          onValueChange={handleSubjectChange}
-          disabled={!selection.year || subjects.length === 0}
-        >
-          <SelectTrigger id="subject" className="w-full">
-            <SelectValue placeholder="Select Subject" />
-          </SelectTrigger>
-          <SelectContent>
-            {subjects.length === 0 && selection.year ? (
-              <SelectItem value="no-subjects" disabled>
-                No subjects available for this semester
-              </SelectItem>
-            ) : (
-              subjects.map((subject) => (
-                <SelectItem key={subject.id} value={subject.name}>
-                  {subject.name} {subject.code && `(${subject.code})`}
+            {years.map((year) => {
+              const isYearBased = contentType === "syllabus" || contentType === "timetable"
+              const yearLabel = year.level === 1 ? "1st" : year.level === 2 ? "2nd" : year.level === 3 ? "3rd" : `${year.level}th`
+              return (
+                <SelectItem key={year.level.toString()} value={year.level.toString()}>
+                  {isYearBased ? `${yearLabel} Year` : year.name}
                 </SelectItem>
-              ))
-            )}
+              )
+            })}
           </SelectContent>
         </Select>
-        <p className="text-xs text-muted-foreground">
-          {subjects.length === 0 && selection.year
-            ? "No subjects defined for this semester"
-            : "Select a subject from the list"}
-        </p>
       </div>
 
-      {/* Topic Input */}
-      <div className="space-y-2">
-        <Label htmlFor="topic">Topic *</Label>
-        <Input
-          id="topic"
-          placeholder="e.g., Arrays, Calculus, Thermodynamics"
-          value={selection.topic || ""}
-          onChange={(e) => handleTopicChange(e.target.value)}
-          disabled={!selection.subject}
-        />
-        <p className="text-xs text-muted-foreground">
-          Enter the topic name
-        </p>
-      </div>
+      {/* Subject Selector - Optional for syllabus and timetable */}
+      {requiresSubject && (
+        <div className="space-y-2">
+          <Label htmlFor="subject">Subject *</Label>
+          <Select
+            value={selection.subject}
+            onValueChange={handleSubjectChange}
+            disabled={!selection.year || subjects.length === 0}
+          >
+            <SelectTrigger id="subject" className="w-full">
+              <SelectValue placeholder="Select Subject" />
+            </SelectTrigger>
+            <SelectContent>
+              {subjects.length === 0 && selection.year ? (
+                <SelectItem value="no-subjects" disabled>
+                  No subjects available for this semester
+                </SelectItem>
+              ) : (
+                subjects.map((subject) => (
+                  <SelectItem key={subject.id} value={subject.name}>
+                    {subject.name} {subject.code && `(${subject.code})`}
+                  </SelectItem>
+                ))
+              )}
+            </SelectContent>
+          </Select>
+          <p className="text-xs text-muted-foreground">
+            {subjects.length === 0 && selection.year
+              ? "No subjects defined for this semester"
+              : "Select a subject from the list"}
+          </p>
+        </div>
+      )}
+
+      {/* Topic Input - Optional for syllabus and timetable */}
+      {requiresSubject && (
+        <div className="space-y-2">
+          <Label htmlFor="topic">Topic *</Label>
+          <Input
+            id="topic"
+            placeholder="e.g., Arrays, Calculus, Thermodynamics"
+            value={selection.topic || ""}
+            onChange={(e) => handleTopicChange(e.target.value)}
+            disabled={!selection.subject}
+          />
+          <p className="text-xs text-muted-foreground">
+            Enter the topic name
+          </p>
+        </div>
+      )}
     </div>
   )
 }
