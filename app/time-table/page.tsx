@@ -1,59 +1,66 @@
 "use client"
 
+import Link from "next/link"
 import { useMemo } from "react"
 import { MainLayout } from "@/components/layout/main-layout"
-import { Card, CardContent } from "@/components/ui/card"
-import { ContentList } from "@/components/content/content-list"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { DEPARTMENTS } from "@/lib/constants"
 import { useApprovedContent } from "@/hooks/use-approved-content"
 import { Content } from "@/lib/types"
-import { Calendar, Loader2 } from "lucide-react"
+import { Calendar, Loader2, ChevronRight } from "lucide-react"
 
 export default function TimeTablePage() {
   const { content: allContent, isLoading } = useApprovedContent()
 
-  // Filter content where topic contains "time table" or "timetable" (case-insensitive)
+  // Filter timetable content (type === "timetable")
   const timeTableContent = useMemo(() => {
-    return allContent.filter((item: Content) => {
-      const topicLower = item.topic.toLowerCase()
-      return topicLower.includes("time table") || topicLower.includes("timetable") || topicLower.includes("schedule")
-    })
+    return allContent.filter((item: Content) => item.type === "timetable")
   }, [allContent])
 
-  // Group branches by department and get time table content for each branch
-  const branchesWithContent = useMemo(() => {
+  // Group by department and branch (semesters will be shown on branch page)
+  const departmentsWithBranches = useMemo(() => {
     const result: Array<{
       department: string
       departmentSlug: string
-      branch: {
+      branches: Array<{
         id: string
         name: string
         fullName?: string
         slug: string
-      }
-      content: Content[]
+        contentCount: number
+      }>
     }> = []
 
     DEPARTMENTS.forEach((dept) => {
+      const branches: Array<{
+        id: string
+        name: string
+        fullName?: string
+        slug: string
+        contentCount: number
+      }> = []
+
       dept.branches.forEach((branch) => {
-        // Filter time table content for this specific branch
+        // Count total timetable content for this branch
         const branchContent = timeTableContent.filter(
           (item: Content) =>
             item.department.toLowerCase() === dept.name.toLowerCase() &&
             item.branch.toLowerCase() === branch.name.toLowerCase()
         )
 
-        result.push({
-          department: dept.fullName || dept.name,
-          departmentSlug: dept.slug,
-          branch: {
-            id: branch.id,
-            name: branch.name,
-            fullName: branch.fullName,
-            slug: branch.slug,
-          },
-          content: branchContent,
+        branches.push({
+          id: branch.id,
+          name: branch.name,
+          fullName: branch.fullName,
+          slug: branch.slug,
+          contentCount: branchContent.length,
         })
+      })
+
+      result.push({
+        department: dept.fullName || dept.name,
+        departmentSlug: dept.slug,
+        branches,
       })
     })
 
@@ -73,7 +80,7 @@ export default function TimeTablePage() {
               </h1>
             </div>
             <p className="text-muted-foreground text-lg">
-              Browse time table content organized by branch
+              Select a department and branch to view timetable by semester
             </p>
           </div>
 
@@ -83,35 +90,56 @@ export default function TimeTablePage() {
             </div>
           ) : (
             <div className="space-y-12">
-              {branchesWithContent.map(({ department, departmentSlug, branch, content }) => (
-                <div key={`${departmentSlug}-${branch.slug}`} className="space-y-4">
-                  {/* Branch Header */}
-                  <div className="flex items-center gap-4">
-                    <div>
-                      <h2 className="text-2xl font-light text-[#2E2E2E] dark:text-[#EEEEEE]">
-                        {branch.fullName || branch.name}
-                      </h2>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        {department} • {content.length} {content.length === 1 ? "time table" : "time tables"}
-                      </p>
-                    </div>
+              {departmentsWithBranches.map(({ department, departmentSlug, branches }) => (
+                <div key={departmentSlug} className="space-y-8">
+                  {/* Department Header */}
+                  <div>
+                    <h2 className="text-2xl font-light text-[#2E2E2E] dark:text-[#EEEEEE] mb-2">
+                      {department}
+                    </h2>
                   </div>
 
-                  {/* Content for this branch */}
-                  {content.length > 0 ? (
-                    <ContentList
-                      content={content}
-                      emptyMessage={`No time table content available for ${branch.fullName || branch.name}.`}
-                    />
-                  ) : (
-                    <Card className="border border-[#2E2E2E] dark:border-[#EEEEEE] bg-[#2E2E2E] dark:bg-[#3A3A3A]">
-                      <CardContent className="p-8 text-center">
-                        <p className="text-[#EEEEEE] dark:text-[#EEEEEE] text-base">
-                          No time table content available for {branch.fullName || branch.name} yet.
-                        </p>
-                      </CardContent>
-                    </Card>
-                  )}
+                  {/* Branches Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {branches.map((branch) => (
+                      <Link
+                        key={branch.id}
+                        href={`/time-table/${departmentSlug}/${branch.slug}`}
+                      >
+                        <Card className="h-full hover:shadow-lg transition-all hover:scale-105 cursor-pointer">
+                          <CardHeader>
+                            <div className="flex items-start justify-between">
+                              <div className="flex-1">
+                                <CardTitle className="text-lg mb-1">
+                                  {branch.fullName || branch.name}
+                                </CardTitle>
+                              </div>
+                              <ChevronRight className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-1" />
+                            </div>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-2">
+                              <div className="flex items-center gap-2 text-sm">
+                                {branch.contentCount > 0 ? (
+                                  <>
+                                    <Calendar className="h-4 w-4 text-primary" />
+                                    <span className="text-foreground font-medium">
+                                      {branch.contentCount} {branch.contentCount === 1 ? "timetable" : "timetables"}
+                                    </span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Calendar className="h-4 w-4 text-muted-foreground" />
+                                    <span className="text-muted-foreground">No timetable yet</span>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>

@@ -1,51 +1,94 @@
+"use client"
+
+import { useParams, useSearchParams } from "next/navigation"
 import Link from "next/link";
 import { Navbar } from "@/components/layout/navbar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ChevronRight, FileText, Video, FileQuestion, Star } from "lucide-react";
+import { ChevronRight, FileText, Video, FileQuestion, Star, BookOpen, Calendar, Loader2 } from "lucide-react";
 import { DEPARTMENTS } from "@/lib/constants";
+import { useApprovedContent } from "@/hooks/use-approved-content";
+import { ContentList } from "@/components/content/content-list";
+import { useMemo } from "react";
 
-export const dynamic = 'force-dynamic';
-
-interface PageProps {
-  params: Promise<{
-    department: string;
-    branch: string;
-    year: string;
-  }>;
-}
-
-export default async function YearPage({ params }: PageProps) {
-  const { department, branch, year } = await params;
+export default function YearPage() {
+  const params = useParams()
+  const searchParams = useSearchParams()
+  const department = params.department as string
+  const branch = params.branch as string
+  const year = params.year as string
+  const contentType = searchParams.get("type")
   
   // Find the year data from constants
   const dept = DEPARTMENTS.find(d => d.slug === department);
   const branchData = dept?.branches.find(b => b.slug === branch);
   const yearData = branchData?.years.find(y => y.level.toString() === year);
   
+  // Fetch approved content
+  const { content: allContent, isLoading } = useApprovedContent()
+
+  // Filter syllabus content for this year if type=syllabus
+  const syllabusContent = useMemo(() => {
+    if (contentType !== "syllabus") return []
+    return allContent.filter((item) => 
+      item.type === "syllabus" &&
+      item.department.toLowerCase() === dept?.name.toLowerCase() &&
+      item.branch.toLowerCase() === branchData?.name.toLowerCase() &&
+      item.year === year
+    )
+  }, [allContent, contentType, dept?.name, branchData?.name, year])
+
+  // Filter timetable content for this year if type=timetable
+  const timetableContent = useMemo(() => {
+    if (contentType !== "timetable") return []
+    return allContent.filter((item) => 
+      item.type === "timetable" &&
+      item.department.toLowerCase() === dept?.name.toLowerCase() &&
+      item.branch.toLowerCase() === branchData?.name.toLowerCase() &&
+      item.year === year
+    )
+  }, [allContent, contentType, dept?.name, branchData?.name, year])
+
+  // Filter PYQ content for this year if type=pyq
+  const pyqContent = useMemo(() => {
+    if (contentType !== "pyq") return []
+    return allContent.filter((item) => 
+      item.type === "pyq" &&
+      item.department.toLowerCase() === dept?.name.toLowerCase() &&
+      item.branch.toLowerCase() === branchData?.name.toLowerCase() &&
+      item.year === year
+    )
+  }, [allContent, contentType, dept?.name, branchData?.name, year])
+
+  // Filter important content for this year if type=important
+  const importantContent = useMemo(() => {
+    if (contentType !== "important") return []
+    return allContent.filter((item) => 
+      item.type === "important" &&
+      item.department.toLowerCase() === dept?.name.toLowerCase() &&
+      item.branch.toLowerCase() === branchData?.name.toLowerCase() &&
+      item.year === year
+    )
+  }, [allContent, contentType, dept?.name, branchData?.name, year])
+
   // Get subjects from constants
   const subjectsFromConstants = yearData?.subjects || [];
   
-  // Fetch approved content from MongoDB to get content counts
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  const contentCountMap = new Map<string, number>();
-  
-  try {
-    const response = await fetch(`${baseUrl}/api/content?status=approved`, {
-      cache: 'no-store'
+  // Count content by subject
+  const contentCountMap = useMemo(() => {
+    const map = new Map<string, number>();
+    allContent.forEach((content) => {
+      if (
+        content.department.toLowerCase() === dept?.name.toLowerCase() &&
+        content.branch.toLowerCase() === branchData?.name.toLowerCase() &&
+        content.year === year
+      ) {
+        const count = map.get(content.subject) || 0;
+        map.set(content.subject, count + 1);
+      }
     });
-    const data = await response.json();
-    
-    if (data.success) {
-      // Count content by subject
-      data.data.forEach((content: any) => {
-        const count = contentCountMap.get(content.subject) || 0;
-        contentCountMap.set(content.subject, count + 1);
-      });
-    }
-  } catch (error) {
-    console.error('Error fetching content:', error);
-  }
+    return map;
+  }, [allContent, dept?.name, branchData?.name, year]);
   
   // Map subjects with their content counts
   const subjects = subjectsFromConstants.map(subject => ({
@@ -81,10 +124,65 @@ export default async function YearPage({ params }: PageProps) {
             <span className="text-foreground">{yearData?.name || `Year ${year}`}</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold leading-tight">{yearData?.name || `Year ${year}`}</h1>
-          <p className="text-muted-foreground mt-2">Select a subject to access study materials</p>
+          <p className="text-muted-foreground mt-2">
+            {contentType === "syllabus" 
+              ? "Syllabus content for this year" 
+              : contentType === "timetable"
+              ? "Timetable content for this semester"
+              : contentType === "pyq"
+              ? "Past Year Questions for this semester"
+              : contentType === "important"
+              ? "Important questions for this semester"
+              : "Select a subject to access study materials"}
+          </p>
         </div>
 
-        {subjects.length === 0 ? (
+        {/* Show syllabus content if type=syllabus */}
+        {contentType === "syllabus" ? (
+          isLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            </div>
+          ) : (
+            <ContentList
+              content={syllabusContent}
+              emptyMessage={`No syllabus content available for ${yearData?.name || `Year ${year}`} yet.`}
+            />
+          )
+        ) : contentType === "timetable" ? (
+          isLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            </div>
+          ) : (
+            <ContentList
+              content={timetableContent}
+              emptyMessage={`No timetable content available for ${yearData?.name || `Semester ${year}`} yet.`}
+            />
+          )
+        ) : contentType === "pyq" ? (
+          isLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            </div>
+          ) : (
+            <ContentList
+              content={pyqContent}
+              emptyMessage={`No PYQ content available for ${yearData?.name || `Semester ${year}`} yet.`}
+            />
+          )
+        ) : contentType === "important" ? (
+          isLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            </div>
+          ) : (
+            <ContentList
+              content={importantContent}
+              emptyMessage={`No important questions available for ${yearData?.name || `Semester ${year}`} yet.`}
+            />
+          )
+        ) : subjects.length === 0 ? (
           <div className="col-span-full text-center py-12">
             <p className="text-muted-foreground">No subjects available for this semester yet.</p>
           </div>
