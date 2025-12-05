@@ -54,7 +54,7 @@ export function Navbar() {
         <div className="flex items-center gap-3">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="hidden md:flex text-[#2E2E2E] dark:text-[#EEEEEE] hover:bg-muted">
+              <Button variant="ghost" className="hidden md:flex text-[#2E2E2E] dark:text-[#EEEEEE] hover:bg-[#2E2E2E]/10 dark:hover:bg-[#EEEEEE]/10 hover:text-[#2E2E2E] dark:hover:text-[#EEEEEE] transition-all duration-200 hover:scale-105">
                 Departments
               </Button>
             </DropdownMenuTrigger>
@@ -69,7 +69,7 @@ export function Navbar() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button asChild variant="ghost" className="hidden md:flex text-[#2E2E2E] dark:text-[#EEEEEE] hover:bg-muted">
+          <Button asChild variant="ghost" className="hidden md:flex text-[#2E2E2E] dark:text-[#EEEEEE] hover:bg-[#2E2E2E]/10 dark:hover:bg-[#EEEEEE]/10 hover:text-[#2E2E2E] dark:hover:text-[#EEEEEE] transition-all duration-200 hover:scale-105">
             <Link href="/upload">
               Upload
             </Link>

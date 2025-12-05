@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
     const subject = searchParams.get("subject");
     const topic = searchParams.get("topic");
     const type = searchParams.get("type");
+    const uploaderId = searchParams.get("uploaderId");
 
     const query: any = {};
 
@@ -26,6 +27,7 @@ export async function GET(request: NextRequest) {
     if (subject) query.subject = subject;
     if (topic) query.topic = topic;
     if (type) query.type = type;
+    if (uploaderId) query.uploaderId = uploaderId;
 
     const content = await Content.find(query)
       .populate("uploaderId", "name email avatar role branch year points createdAt")

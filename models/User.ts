@@ -10,6 +10,8 @@ export interface IUser {
   branch: string;
   year: string;
   points: number;
+  resetToken?: string;
+  resetTokenExpiry?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -47,6 +49,14 @@ const UserSchema = new Schema<IUser>(
     points: {
       type: Number,
       default: 0,
+    },
+    resetToken: {
+      type: String,
+      select: false, // Don't return reset token by default
+    },
+    resetTokenExpiry: {
+      type: Date,
+      select: false, // Don't return reset token expiry by default
     },
   },
   {

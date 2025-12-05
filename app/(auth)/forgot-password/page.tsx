@@ -35,13 +35,40 @@ export default function ForgotPasswordPage() {
     }
 
     setIsLoading(true)
+    setError("")
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const response = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        setIsSubmitted(true)
+        toast.success(data.message || "Password reset email sent!")
+        
+        // In development, show the reset URL
+        if (data.resetUrl) {
+          console.log("Reset URL:", data.resetUrl)
+          // Show it to user in development mode
+          toast.info(`Development Mode: ${data.resetUrl}`, { duration: 15000 })
+        }
+      } else {
+        setError(data.error || "Failed to send reset email")
+        toast.error(data.error || "Failed to send reset email")
+      }
+    } catch (error) {
+      console.error("Forgot password error:", error)
+      setError("An error occurred. Please try again.")
+      toast.error("An error occurred. Please try again.")
+    } finally {
       setIsLoading(false)
-      setIsSubmitted(true)
-      toast.success("Password reset email sent!")
-    }, 1500)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
