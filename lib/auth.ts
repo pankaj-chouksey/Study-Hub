@@ -43,6 +43,7 @@ export const authOptions: NextAuthOptions = {
           branch: user.branch,
           year: user.year,
           avatar: user.avatar,
+          points: user.points,
         }
       },
     }),
@@ -77,10 +78,31 @@ export const authOptions: NextAuthOptions = {
       // Initial sign in
       if (user) {
         token.id = user.id
-        token.role = user.role
-        token.branch = user.branch
-        token.year = user.year
-        token.avatar = user.avatar
+        
+        // For OAuth users, fetch full user data from database
+        if (user.id && (!user.role || !user.branch)) {
+          try {
+            await dbConnect()
+            const dbUser = await User.findById(user.id)
+            if (dbUser) {
+              token.role = dbUser.role
+              token.branch = dbUser.branch
+              token.year = dbUser.year
+              token.avatar = dbUser.avatar
+              token.points = dbUser.points
+            }
+          } catch (error) {
+            console.error("Error fetching user in JWT callback:", error)
+          }
+        } else {
+          // For credentials provider, use user object directly
+          token.role = user.role
+          token.branch = user.branch
+          token.year = user.year
+          token.avatar = user.avatar
+          token.points = user.points
+        }
+        
         token.email = user.email || ""
         token.name = user.name || ""
       }
@@ -99,6 +121,22 @@ export const authOptions: NextAuthOptions = {
         session.user.branch = token.branch as string
         session.user.year = token.year as string
         session.user.avatar = token.avatar as string | undefined
+        
+        // Fetch fresh points from database to ensure accuracy
+        if (token.id) {
+          try {
+            await dbConnect()
+            const user = await User.findById(token.id).select("points")
+            if (user) {
+              session.user.points = user.points
+            }
+          } catch (error) {
+            // Fallback to token points if database fetch fails
+            session.user.points = token.points
+          }
+        } else {
+          session.user.points = token.points
+        }
       }
       
       return session

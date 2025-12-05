@@ -9,6 +9,7 @@ declare module "next-auth" {
       branch: string
       year: string
       avatar?: string
+      points?: number
     } & DefaultSession["user"]
   }
 
@@ -18,6 +19,7 @@ declare module "next-auth" {
     branch: string
     year: string
     avatar?: string
+    points?: number
   }
 }
 
@@ -30,5 +32,6 @@ declare module "next-auth/jwt" {
     branch: string
     year: string
     avatar?: string
+    points?: number
   }
 }
