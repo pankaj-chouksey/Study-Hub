@@ -19,7 +19,6 @@ import {
   Calendar, 
   Trophy, 
   Upload, 
-  Eye, 
   Download,
   FileText,
   Video,
@@ -95,7 +94,6 @@ export default function ProfilePage() {
     approved: userContent.filter((c) => c.status === "approved").length,
     pending: userContent.filter((c) => c.status === "pending").length,
     rejected: userContent.filter((c) => c.status === "rejected").length,
-    totalViews: userContent.reduce((sum, c) => sum + c.views, 0),
     totalDownloads: userContent.reduce((sum, c) => sum + c.downloads, 0),
     totalPoints: (user as Session["user"] & { points?: number })?.points || 0,
   };
@@ -193,7 +191,7 @@ export default function ProfilePage() {
         </Card>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
@@ -217,20 +215,6 @@ export default function ProfilePage() {
                 <div>
                   <p className="text-xs text-muted-foreground">Approved</p>
                   <p className="text-xl font-light">{stats.approved}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-purple-100 dark:bg-purple-950">
-                  <Eye className="w-5 h-5 text-purple-500" />
-                </div>
-                <div>
-                  <p className="text-xs text-muted-foreground">Total Views</p>
-                  <p className="text-xl font-light">{stats.totalViews.toLocaleString()}</p>
                 </div>
               </div>
             </CardContent>
