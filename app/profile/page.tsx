@@ -17,7 +17,6 @@ import {
   Mail, 
   GraduationCap, 
   Calendar, 
-  Trophy, 
   Upload, 
   Download,
   FileText,
@@ -95,7 +94,6 @@ export default function ProfilePage() {
     pending: userContent.filter((c) => c.status === "pending").length,
     rejected: userContent.filter((c) => c.status === "rejected").length,
     totalDownloads: userContent.reduce((sum, c) => sum + c.downloads, 0),
-    totalPoints: (user as Session["user"] & { points?: number })?.points || 0,
   };
 
   // Filter content by status
@@ -176,14 +174,6 @@ export default function ProfilePage() {
                       Admin
                     </Badge>
                   )}
-                </div>
-
-                {/* Points Display */}
-                <div className="flex items-center gap-2 pt-2">
-                  <Trophy className="w-5 h-5 text-yellow-500" />
-                  <span className="text-lg font-light">
-                    <span className="font-medium">{stats.totalPoints}</span> Points
-                  </span>
                 </div>
               </div>
             </div>
