@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession, type Session } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { type Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import { MainLayout } from "@/components/layout/main-layout";
 import { AuthRequired } from "@/components/auth/auth-required";
@@ -96,7 +97,7 @@ export default function ProfilePage() {
     rejected: userContent.filter((c) => c.status === "rejected").length,
     totalViews: userContent.reduce((sum, c) => sum + c.views, 0),
     totalDownloads: userContent.reduce((sum, c) => sum + c.downloads, 0),
-    totalPoints: (user as Session["user"] & { points?: number } | undefined)?.points || 0,
+    totalPoints: (user as Session["user"] & { points?: number })?.points || 0,
   };
 
   // Filter content by status
