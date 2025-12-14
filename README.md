@@ -1,4 +1,4 @@
-# StudyHub - Collaborative Study Platform
+# Edvora - Collaborative Study Platform
 
 A modern, production-ready study platform built with Next.js 15, featuring secure authentication, file uploads, and content management.
 

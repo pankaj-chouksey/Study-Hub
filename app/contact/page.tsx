@@ -72,8 +72,8 @@ export default function ContactPage() {
               <CardDescription>Send us an email anytime</CardDescription>
             </CardHeader>
             <CardContent>
-              <a href="mailto:support@studyhub.com" className="text-primary hover:underline">
-                support@studyhub.com
+              <a href="mailto:support@edvora.com" className="text-primary hover:underline">
+                support@edvora.com
               </a>
             </CardContent>
           </Card>
@@ -192,7 +192,7 @@ export default function ContactPage() {
               <div>
                 <h3 className="font-semibold mb-2">Do you offer technical support?</h3>
                 <p className="text-muted-foreground">
-                  Absolutely! We're here to help with any technical issues you encounter while using StudyHub.
+                  Absolutely! We're here to help with any technical issues you encounter while using Edvora.
                 </p>
               </div>
             </div>
@@ -204,7 +204,7 @@ export default function ContactPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
-                  StudyHub Education Platform<br />
+                  Edvora Education Platform<br />
                   University Campus<br />
                   City, State - 123456<br />
                   India

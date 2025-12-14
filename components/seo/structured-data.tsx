@@ -38,9 +38,9 @@ export function StructuredData({ type, data }: StructuredDataProps) {
         url: siteConfig.url,
         logo: `${siteConfig.url}/logo.png`,
         sameAs: [
-          "https://twitter.com/studyhub",
-          "https://facebook.com/studyhub",
-          "https://linkedin.com/company/studyhub",
+          "https://twitter.com/edvora",
+          "https://facebook.com/edvora",
+          "https://linkedin.com/company/edvora",
         ],
       };
       break;

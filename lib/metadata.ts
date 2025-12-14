@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 const siteConfig = {
-  name: "StudyHub",
+  name: "Edvora",
   description:
     "Collaborative study materials platform for college students. Share and access notes, videos, PYQs, and important questions across all departments.",
-  url: "https://studyhub.edu",
-  ogImage: "https://studyhub.edu/og-image.png",
+  url: "https://edvora.edu",
+  ogImage: "https://edvora.edu/og-image.png",
   keywords: [
     "study materials",
     "college notes",
@@ -67,7 +67,7 @@ export function generateMetadata({
       title: metaTitle,
       description: metaDescription,
       images: [metaImage],
-      creator: "@studyhub",
+      creator: "@edvora",
     },
     robots: {
       index: !noIndex,

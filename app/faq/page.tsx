@@ -7,14 +7,14 @@ export default function FAQPage() {
       <div className="container mx-auto px-6 py-12 max-w-4xl">
         <h1 className="text-4xl font-bold mb-4">Frequently Asked Questions</h1>
         <p className="text-xl text-muted-foreground mb-12">
-          Find answers to common questions about StudyHub
+          Find answers to common questions about Edvora
         </p>
 
         <Accordion type="single" collapsible className="space-y-4">
           <AccordionItem value="item-1">
-            <AccordionTrigger>What is StudyHub?</AccordionTrigger>
+            <AccordionTrigger>What is Edvora?</AccordionTrigger>
             <AccordionContent>
-              StudyHub is a collaborative platform where students can share and access study materials including notes, videos, past year questions, and important questions for various departments and subjects.
+              Edvora is a collaborative platform where students can share and access study materials including notes, videos, past year questions, and important questions for various departments and subjects.
             </AccordionContent>
           </AccordionItem>
 
@@ -75,9 +75,9 @@ export default function FAQPage() {
           </AccordionItem>
 
           <AccordionItem value="item-10">
-            <AccordionTrigger>Is StudyHub free to use?</AccordionTrigger>
+            <AccordionTrigger>Is Edvora free to use?</AccordionTrigger>
             <AccordionContent>
-              Yes! StudyHub is completely free for all students. Our mission is to make quality education accessible to everyone.
+              Yes! Edvora is completely free for all students. Our mission is to make quality education accessible to everyone.
             </AccordionContent>
           </AccordionItem>
         </Accordion>

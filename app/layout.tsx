@@ -7,7 +7,7 @@ import { generateMetadata as generateSiteMetadata } from "@/lib/metadata";
 import { StructuredData } from "@/components/seo/structured-data";
 
 export const metadata: Metadata = generateSiteMetadata({
-  title: "StudyHub - Share & Learn Together",
+  title: "Edvora - Share & Learn Together",
 });
 
 export const viewport: Viewport = {
@@ -38,7 +38,7 @@ export default function RootLayout({
             defaultTheme="light"
             enableSystem={false}
             enableColorScheme
-            storageKey="studyhub-theme"
+            storageKey="edvora-theme"
           >
             {children}
             <Toaster />

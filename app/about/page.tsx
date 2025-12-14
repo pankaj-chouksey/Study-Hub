@@ -6,7 +6,7 @@ export default function AboutPage() {
   return (
     <MainLayout>
       <div className="container mx-auto px-6 py-12 max-w-4xl">
-        <h1 className="text-4xl font-bold mb-4">About StudyHub</h1>
+        <h1 className="text-4xl font-bold mb-4">About Edvora</h1>
         <p className="text-xl text-muted-foreground mb-12">
           A collaborative platform for students to share and access study materials
         </p>

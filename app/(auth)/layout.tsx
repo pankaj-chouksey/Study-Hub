@@ -13,7 +13,7 @@ export default function AuthLayout({
         <div className="container mx-auto px-6 py-4">
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <GraduationCap className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold">StudyHub</span>
+            <span className="text-xl font-bold">Edvora</span>
           </Link>
         </div>
       </header>
@@ -28,7 +28,7 @@ export default function AuthLayout({
       {/* Minimal Footer */}
       <footer className="border-t border-border/40 backdrop-blur-sm bg-background/80">
         <div className="container mx-auto px-6 py-4 text-center text-sm text-muted-foreground">
-          <p>&copy; 2024 StudyHub. All rights reserved.</p>
+          <p>&copy; 2024 Edvora. All rights reserved.</p>
         </div>
       </footer>
     </div>

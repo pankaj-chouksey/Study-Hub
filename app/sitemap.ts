@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { DEPARTMENTS } from "@/lib/constants";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://studyhub.edu";
+  const baseUrl = "https://edvora.edu";
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
