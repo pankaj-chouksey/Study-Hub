@@ -587,7 +587,43 @@ export const DEPARTMENTS: Department[] = [
           {
             level: 3,
             name: "Semester 3",
-            subjects: []
+            subjects: [
+              {
+                id: "al301-design-thinking",
+                name: "Design Thinking",
+                code: "AL301",
+                yearId: "3",
+                topics: []
+              },
+              {
+                id: "al302-computer-organization-architecture",
+                name: "Computer Organization and Architecture",
+                code: "AL302",
+                yearId: "3",
+                topics: []
+              },
+              {
+                id: "al303-data-structures-algorithms",
+                name: "Data Structures and Algorithms",
+                code: "AL303",
+                yearId: "3",
+                topics: []
+              },
+              {
+                id: "al304-database-management-systems",
+                name: "Database Management Systems",
+                code: "AL304",
+                yearId: "3",
+                topics: []
+              },
+              {
+                id: "al305-introduction-machine-learning",
+                name: "Introduction to Machine Learning",
+                code: "AL305",
+                yearId: "3",
+                topics: []
+              }
+            ]
           },
           {
             level: 4,
@@ -605,17 +641,125 @@ export const DEPARTMENTS: Department[] = [
           {
             level: 1,
             name: "Semester 1",
-            subjects: []
+            subjects: [
+              {
+                id: "cd101-statistics-probability-calculus",
+                name: "Introductory Topics in Statistics, Probability and Calculus",
+                code: "CD101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "cd102-basic-computer-engineering",
+                name: "Basic Computer Engineering",
+                code: "CD102",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "cd103-principles-of-electronics",
+                name: "Principles of Electronics",
+                code: "CD103",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "cd104-fundamentals-of-physics",
+                name: "Fundamentals of Physics",
+                code: "CD104",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "cd105-communication-skills",
+                name: "Communication Skills",
+                code: "CD105",
+                yearId: "1",
+                topics: []
+              }
+            ]
           },
           {
             level: 2,
             name: "Semester 2",
-            subjects: []
+            subjects: [
+              {
+                id: "cd201-discrete-structures",
+                name: "Discrete Structures",
+                code: "CD201",
+                yearId: "2",
+                topics: []
+              },
+              {
+                id: "cd202-statistical-methods",
+                name: "Statistical Methods",
+                code: "CD202",
+                yearId: "2",
+                topics: []
+              },
+              {
+                id: "cd203-digital-logic-design",
+                name: "Digital Logic Design",
+                code: "CD203",
+                yearId: "2",
+                topics: []
+              },
+              {
+                id: "cd204-object-oriented-programming",
+                name: "Object Oriented Programming",
+                code: "CD204",
+                yearId: "2",
+                topics: []
+              },
+              {
+                id: "cd205-introduction-to-data-analytics",
+                name: "Introduction to Data Analytics",
+                code: "CD205",
+                yearId: "2",
+                topics: []
+              }
+            ]
           },
           {
             level: 3,
             name: "Semester 3",
-            subjects: []
+            subjects: [
+              {
+                id: "cd301-design-thinking",
+                name: "Design Thinking",
+                code: "CD301",
+                yearId: "3",
+                topics: []
+              },
+              {
+                id: "cd302-computer-organization-and-architecture",
+                name: "Computer Organization and Architecture",
+                code: "CD302",
+                yearId: "3",
+                topics: []
+              },
+              {
+                id: "cd303-data-structures-and-algorithms",
+                name: "Data Structures and Algorithms",
+                code: "CD303",
+                yearId: "3",
+                topics: []
+              },
+              {
+                id: "cd304-database-management-systems",
+                name: "Database Management Systems",
+                code: "CD304",
+                yearId: "3",
+                topics: []
+              },
+              {
+                id: "cd305-introduction-to-data-science",
+                name: "Introduction to Data Science",
+                code: "CD305",
+                yearId: "3",
+                topics: []
+              }
+            ]
           },
           {
             level: 4,
@@ -633,17 +777,139 @@ export const DEPARTMENTS: Department[] = [
           {
             level: 1,
             name: "Semester 1",
-            subjects: []
+            subjects: [
+              {
+                id: "cb101-discrete-mathematics",
+                name: "Discrete Mathematics",
+                code: "CB101",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "cb102-introductory-topics-statistics-probability-calculus",
+                name: "Introductory Topics in Statistics, Probability and Calculus",
+                code: "CB102",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "cb103-fundamentals-computer-science",
+                name: "Fundamentals of Computer Science",
+                code: "CB103",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "cb104-principles-electrical-engineering",
+                name: "Principles of Electrical Engineering",
+                code: "CB104",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "cb105-fundamentals-physics",
+                name: "Fundamentals of Physics",
+                code: "CB105",
+                yearId: "1",
+                topics: []
+              },
+              {
+                id: "cb106-business-communication-value-science-i",
+                name: "Business Communication and Value Science–I",
+                code: "CB106",
+                yearId: "1",
+                topics: []
+              }
+            ]
           },
           {
             level: 2,
             name: "Semester 2",
-            subjects: []
+            subjects: [
+              {
+                id: "cb201-linear-algebra",
+                name: "Linear Algebra",
+                code: "CB201",
+                yearId: "2",
+                topics: []
+              },
+              {
+                id: "cb202-statistical-methods",
+                name: "Statistical Methods",
+                code: "CB202",
+                yearId: "2",
+                topics: []
+              },
+              {
+                id: "cb203-data-structures-algorithms",
+                name: "Data Structures & Algorithms",
+                code: "CB203",
+                yearId: "2",
+                topics: []
+              },
+              {
+                id: "cb204-principles-electronics",
+                name: "Principles of Electronics",
+                code: "CB204",
+                yearId: "2",
+                topics: []
+              },
+              {
+                id: "cb205-fundamentals-economics",
+                name: "Fundamentals of Economics",
+                code: "CB205",
+                yearId: "2",
+                topics: []
+              },
+              {
+                id: "cb206-business-communication-value-science-ii",
+                name: "Business Communication and Value Science-II",
+                code: "CB206",
+                yearId: "2",
+                topics: []
+              }
+            ]
           },
           {
             level: 3,
             name: "Semester 3",
-            subjects: []
+            subjects: [
+              {
+                id: "cb301-formal-language-automata-theory",
+                name: "Formal Language and Automata Theory",
+                code: "CB301",
+                yearId: "3",
+                topics: []
+              },
+              {
+                id: "cb302-computer-organization-architecture",
+                name: "Computer Organization & Architecture",
+                code: "CB302",
+                yearId: "3",
+                topics: []
+              },
+              {
+                id: "cb303-object-oriented-programming",
+                name: "Object Oriented Programming",
+                code: "CB303",
+                yearId: "3",
+                topics: []
+              },
+              {
+                id: "cb304-computational-statistics",
+                name: "Computational Statistics",
+                code: "CB304",
+                yearId: "3",
+                topics: []
+              },
+              {
+                id: "cb305-database-management-systems",
+                name: "Database Management Systems",
+                code: "CB305",
+                yearId: "3",
+                topics: []
+              }
+            ]
           },
           {
             level: 4,
