@@ -1,4 +1,4 @@
-# Edvora - Collaborative Study Platform
+# Adhyayan - Collaborative Study Platform
 
 A modern, production-ready study platform built with Next.js 15, featuring secure authentication, file uploads, and content management.
 
@@ -61,6 +61,10 @@ NEXTAUTH_URL=http://localhost:3000
 CLOUDINARY_CLOUD_NAME=your-cloud-name
 CLOUDINARY_API_KEY=your-api-key
 CLOUDINARY_API_SECRET=your-api-secret
+
+# Resend (for password reset emails)
+RESEND_API_KEY=your-resend-api-key
+RESEND_FROM_EMAIL=Adhyayan <noreply@adhyayan.edu>
 
 # Development only
 NEXT_PUBLIC_USE_LOCAL_UPLOAD=true

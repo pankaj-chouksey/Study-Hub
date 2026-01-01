@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/User";
 import crypto from "crypto";
+import { sendPasswordResetEmail } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {
@@ -48,23 +49,44 @@ export async function POST(request: NextRequest) {
     userWithPassword.resetTokenExpiry = resetTokenExpiry;
     await userWithPassword.save();
 
-    // In production, you would send an email here with the reset link
-    // For now, we'll return the token in development (remove in production)
+    // Generate reset URL
     const resetUrl = `${process.env.NEXTAUTH_URL || "http://localhost:3000"}/reset-password?token=${resetToken}`;
 
-    // TODO: Send email with reset link
-    // await sendPasswordResetEmail(user.email, resetUrl);
+    // Send password reset email
+    const emailResult = await sendPasswordResetEmail({
+      email: userWithPassword.email,
+      resetUrl,
+      userName: userWithPassword.name,
+    });
 
-    // In development, log the reset URL (remove in production)
+    // If email sending fails, still return success (security best practice)
+    // but log the error for debugging
+    if (!emailResult.success) {
+      console.error("Failed to send password reset email:", emailResult.error);
+      // In development, return the URL as fallback
+      if (process.env.NODE_ENV === "development") {
+        console.log("Password reset link (fallback):", resetUrl);
+        return NextResponse.json({
+          success: true,
+          message: "If an account with that email exists, we've sent a password reset link.",
+          resetUrl, // Only in development
+        });
+      }
+    }
+
+    // In development, also log the reset URL for testing
     if (process.env.NODE_ENV === "development") {
       console.log("Password reset link:", resetUrl);
+      return NextResponse.json({
+        success: true,
+        message: "If an account with that email exists, we've sent a password reset link.",
+        resetUrl, // Only in development
+      });
     }
 
     return NextResponse.json({
       success: true,
       message: "If an account with that email exists, we've sent a password reset link.",
-      // Remove this in production - only for development
-      ...(process.env.NODE_ENV === "development" && { resetUrl }),
     });
   } catch (error: any) {
     console.error("Forgot password error:", error);
