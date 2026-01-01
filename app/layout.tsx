@@ -26,19 +26,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="font-sans">
       <head>
         <StructuredData type="WebSite" />
         <StructuredData type="Organization" />
       </head>
-      <body>
+      <body className="font-sans">
         <SessionProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="light"
             enableSystem={false}
             enableColorScheme
-            storageKey="Adhyayan-theme"
+            storageKey="adhyayan-theme"
           >
             {children}
             <Toaster />
