@@ -11,7 +11,7 @@ export function Footer() {
           {/* Brand Section */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2 font-bold text-xl text-[#EEEEEE]">
-              <span>Edvora</span>
+              <span>Adhyayan</span>
             </Link>
             <p className="text-sm text-[#EEEEEE]/80">
               Collaborative study materials platform for college students. Share, learn, and grow together.
@@ -93,7 +93,7 @@ export function Footer() {
         <Separator className="my-8 bg-[#EEEEEE]/20" />
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[#EEEEEE]/80">
-          <p>© {currentYear} Edvora. All rights reserved.</p>
+          <p>© {currentYear} Adhyayan. All rights reserved.</p>
           <p>Built with ❤️ by Pankaj Chouksey</p>
         </div>
       </div>

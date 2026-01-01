@@ -43,7 +43,7 @@ export function Navbar() {
       <div className="container mx-auto px-6 h-16 flex items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-2 font-bold text-xl text-foreground">
           <span className="text-[#2E2E2E] dark:text-[#EEEEEE]">
-            Edvora
+            Adhyayan
           </span>
         </Link>
 
