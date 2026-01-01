@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Mail, MessageSquare, Phone, MapPin } from "lucide-react"
+import { Mail, MessageSquare } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 
@@ -64,7 +64,7 @@ export default function ContactPage() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
+        <div className="grid md:grid-cols-2 gap-8 mb-12">
           <Card>
             <CardHeader>
               <Mail className="h-8 w-8 mb-2 text-primary" />
@@ -72,8 +72,8 @@ export default function ContactPage() {
               <CardDescription>Send us an email anytime</CardDescription>
             </CardHeader>
             <CardContent>
-              <a href="mailto:support@Adhyayan.com" className="text-primary hover:underline">
-                support@Adhyayan.com
+              <a href="mailto:support@adhyayan.com" className="text-primary hover:underline">
+                support@adhyayan.com
               </a>
             </CardContent>
           </Card>
@@ -88,19 +88,6 @@ export default function ContactPage() {
               <p className="text-sm text-muted-foreground">
                 Available Mon-Fri, 9am-6pm IST
               </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <Phone className="h-8 w-8 mb-2 text-primary" />
-              <CardTitle>Phone</CardTitle>
-              <CardDescription>Call us during business hours</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <a href="tel:+911234567890" className="text-primary hover:underline">
-                +91 123 456 7890
-              </a>
             </CardContent>
           </Card>
         </div>
@@ -171,7 +158,7 @@ export default function ContactPage() {
               <div>
                 <h3 className="font-semibold mb-2">How quickly will I get a response?</h3>
                 <p className="text-muted-foreground">
-                  We typically respond within 24 hours during business days. For urgent matters, please call us directly.
+                  We typically respond within 24 hours during business days. For urgent matters, please send us an email.
                 </p>
               </div>
 
@@ -196,21 +183,6 @@ export default function ContactPage() {
                 </p>
               </div>
             </div>
-
-            <Card className="mt-8">
-              <CardHeader>
-                <MapPin className="h-8 w-8 mb-2 text-primary" />
-                <CardTitle>Office Location</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Adhyayan Education Platform<br />
-                  University Campus<br />
-                  City, State - 123456<br />
-                  India
-                </p>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </div>
