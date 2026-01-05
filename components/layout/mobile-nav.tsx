@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X, Upload, Home, BookOpen, Trophy, MessageSquare, User } from "lucide-react";
+import { Menu, X, Upload, Home, BookOpen, Trophy, MessageSquare, User, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -34,6 +34,12 @@ export function MobileNav() {
             <h3 className="text-sm font-semibold text-muted-foreground px-2">
               Quick Actions
             </h3>
+            <Button asChild className="justify-start h-12" onClick={() => setOpen(false)}>
+              <Link href="/search">
+                <Search className="h-4 w-4 mr-3" />
+                Search
+              </Link>
+            </Button>
             <Button asChild className="justify-start h-12" onClick={() => setOpen(false)}>
               <Link href="/upload">
                 <Upload className="h-4 w-4 mr-3" />

@@ -80,7 +80,7 @@ export default function SyllabusPage() {
               </h1>
             </div>
             <p className="text-muted-foreground text-lg">
-              Select a department and branch to view syllabus by year
+              Select a department and branch to view syllabus by semester
             </p>
           </div>
 

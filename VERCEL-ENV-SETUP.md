@@ -42,6 +42,17 @@ NEXT_PUBLIC_USE_LOCAL_UPLOAD=false
 
 **Note:** Set to `false` for production (uses Cloudinary)
 
+### 5. Resend (Password Reset Emails) - **REQUIRED**
+```bash
+RESEND_API_KEY=re_XSAEMvCQ_6MYZUf3fxE8be83fTEQj6yZs
+RESEND_FROM_EMAIL=Adhyayan <onboarding@resend.dev>
+```
+
+**Important Notes:**
+- Use `onboarding@resend.dev` for testing (works immediately, no domain verification needed)
+- For production with custom domain, verify your domain at [resend.com/domains](https://resend.com/domains)
+- **Cannot use Gmail addresses** (gmail.com domain is not allowed by Resend)
+
 ---
 
 ## Optional Environment Variables
@@ -92,6 +103,8 @@ vercel env add CLOUDINARY_CLOUD_NAME
 vercel env add CLOUDINARY_API_KEY
 vercel env add CLOUDINARY_API_SECRET
 vercel env add NEXT_PUBLIC_USE_LOCAL_UPLOAD
+vercel env add RESEND_API_KEY
+vercel env add RESEND_FROM_EMAIL
 
 # Pull environment variables to local
 vercel env pull
@@ -125,6 +138,10 @@ CLOUDINARY_API_SECRET=QO8bh-KyDF9LArEZekxxqerOCF8
 
 # File Upload
 NEXT_PUBLIC_USE_LOCAL_UPLOAD=false
+
+# Resend (for password reset emails)
+RESEND_API_KEY=re_XSAEMvCQ_6MYZUf3fxE8be83fTEQj6yZs
+RESEND_FROM_EMAIL=Adhyayan <onboarding@resend.dev>
 
 # Google OAuth (Optional)
 # GOOGLE_CLIENT_ID=your-google-client-id
@@ -186,6 +203,12 @@ NEXT_PUBLIC_USE_LOCAL_UPLOAD=false
 - Check Cloudinary credentials
 - Review upload API logs in Vercel
 
+### Resend Email Issues
+- Verify `RESEND_API_KEY` is set correctly
+- Check `RESEND_FROM_EMAIL` uses `onboarding@resend.dev` (for testing) or verified domain
+- **Error: "gmail.com domain is not verified"** → Change to `onboarding@resend.dev` or verify your domain
+- Check Resend dashboard for API key validity
+
 ---
 
 ## Quick Deployment Checklist
@@ -195,6 +218,8 @@ NEXT_PUBLIC_USE_LOCAL_UPLOAD=false
 - [ ] NEXTAUTH_URL updated with production domain
 - [ ] Cloudinary credentials added
 - [ ] NEXT_PUBLIC_USE_LOCAL_UPLOAD set to false
+- [ ] RESEND_API_KEY added (for password reset emails)
+- [ ] RESEND_FROM_EMAIL added (use onboarding@resend.dev for testing)
 - [ ] Google OAuth configured (optional)
 - [ ] All variables set for Production environment
 - [ ] Application redeployed

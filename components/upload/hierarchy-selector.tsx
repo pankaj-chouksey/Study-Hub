@@ -179,10 +179,10 @@ export function HierarchySelector({ onSelect, value, contentType }: HierarchySel
         </Select>
       </div>
 
-      {/* Year Selector */}
+      {/* Year/Semester Selector */}
       <div className="space-y-2">
         <Label htmlFor="year">
-          {contentType === "syllabus" || contentType === "timetable" ? "Year *" : "Semester *"}
+          {contentType === "timetable" ? "Year *" : "Semester *"}
         </Label>
         <Select
           value={selection.year}
@@ -190,15 +190,15 @@ export function HierarchySelector({ onSelect, value, contentType }: HierarchySel
           disabled={!selection.branch}
         >
           <SelectTrigger id="year" className="w-full">
-            <SelectValue placeholder={contentType === "syllabus" || contentType === "timetable" ? "Select Year" : "Select Semester"} />
+            <SelectValue placeholder={contentType === "timetable" ? "Select Year" : "Select Semester"} />
           </SelectTrigger>
           <SelectContent>
             {years.map((year) => {
-              const isYearBased = contentType === "syllabus" || contentType === "timetable"
-              const yearLabel = year.level === 1 ? "1st" : year.level === 2 ? "2nd" : year.level === 3 ? "3rd" : `${year.level}th`
+              const isYearBased = contentType === "timetable"
+              const semesterLabel = year.level === 1 ? "1st" : year.level === 2 ? "2nd" : year.level === 3 ? "3rd" : `${year.level}th`
               return (
                 <SelectItem key={year.level.toString()} value={year.level.toString()}>
-                  {isYearBased ? `${yearLabel} Year` : year.name}
+                  {isYearBased ? `${semesterLabel} Year` : year.name}
                 </SelectItem>
               )
             })}

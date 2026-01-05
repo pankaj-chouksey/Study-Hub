@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Upload, Moon, Sun, BookOpen, LogOut, User, LogIn } from "lucide-react";
+import { Upload, Moon, Sun, BookOpen, LogOut, User, LogIn, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -52,6 +52,19 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-3">
+          {/* Mobile Search Button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            asChild
+          >
+            <Link href="/search">
+              <Search className="h-5 w-5" />
+              <span className="sr-only">Search</span>
+            </Link>
+          </Button>
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="hidden md:flex text-[#2E2E2E] dark:text-[#EEEEEE] hover:bg-[#2E2E2E]/10 dark:hover:bg-[#EEEEEE]/10 hover:text-[#2E2E2E] dark:hover:text-[#EEEEEE] transition-all duration-200 hover:scale-105">

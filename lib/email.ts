@@ -1,8 +1,5 @@
 import { Resend } from "resend";
 
-// Initialize Resend client
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 interface SendPasswordResetEmailParams {
   email: string;
   resetUrl: string;
@@ -27,7 +24,14 @@ export async function sendPasswordResetEmail({
       };
     }
 
-    const fromEmail = process.env.RESEND_FROM_EMAIL || "Adhyayan <noreply@adhyayan.edu>";
+    // Initialize Resend client only when needed (lazy initialization)
+    // This prevents build errors when API key is not set during build time
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    // Use Resend's default domain for testing, or custom domain if verified
+    // For testing: use onboarding@resend.dev (works without verification)
+    // For production: verify your domain and use your custom email
+    const fromEmail = process.env.RESEND_FROM_EMAIL || "Adhyayan <onboarding@resend.dev>";
     const displayName = userName || "User";
 
     const { data, error } = await resend.emails.send({

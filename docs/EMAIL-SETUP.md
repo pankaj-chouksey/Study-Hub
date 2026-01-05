@@ -42,9 +42,12 @@ Add these to your `.env.local` file (for development) and Vercel environment var
 RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxx
 
 # Email sender address
-# Use your verified domain for production: noreply@yourdomain.com
-# For testing, use Resend's default: onboarding@resend.dev
-RESEND_FROM_EMAIL=Adhyayan <noreply@adhyayan.edu>
+# IMPORTANT: You CANNOT use Gmail addresses (gmail.com domain)
+# For testing: Use Resend's default domain (works immediately)
+#   RESEND_FROM_EMAIL=Adhyayan <onboarding@resend.dev>
+# For production: Verify your domain first, then use your custom email
+#   RESEND_FROM_EMAIL=Adhyayan <noreply@yourdomain.com>
+RESEND_FROM_EMAIL=Adhyayan <onboarding@resend.dev>
 
 # Your app URL (should already exist)
 NEXTAUTH_URL=http://localhost:3000  # Development

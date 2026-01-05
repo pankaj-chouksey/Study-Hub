@@ -2,15 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, BookOpen, Upload, Trophy, MessageSquare } from "lucide-react";
+import { Home, BookOpen, Upload, Trophy, MessageSquare, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/", icon: Home, label: "Home" },
   { href: "/departments", icon: BookOpen, label: "Browse" },
+  { href: "/search", icon: Search, label: "Search" },
   { href: "/upload", icon: Upload, label: "Upload" },
   { href: "/leaderboard", icon: Trophy, label: "Leaderboard" },
-  { href: "/discussion", icon: MessageSquare, label: "Discussion" },
 ];
 
 export function BottomNav() {

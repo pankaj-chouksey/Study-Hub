@@ -121,14 +121,22 @@ export default function YearPage() {
               {branchData?.name || branch.replace("-", " ")}
             </Link>
             <ChevronRight className="h-4 w-4" />
-            <span className="text-foreground">{yearData?.name || `Year ${year}`}</span>
+            <span className="text-foreground">
+              {contentType === "syllabus" 
+                ? (yearData?.name || `Semester ${year}`)
+                : (yearData?.name || `Year ${year}`)}
+            </span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold leading-tight">{yearData?.name || `Year ${year}`}</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold leading-tight">
+            {contentType === "syllabus" 
+              ? (yearData?.name || `Semester ${year}`)
+              : (yearData?.name || `Year ${year}`)}
+          </h1>
           <p className="text-muted-foreground mt-2">
             {contentType === "syllabus" 
-              ? "Syllabus content for this year" 
+              ? "Syllabus content for this semester" 
               : contentType === "timetable"
-              ? "Timetable content for this semester"
+              ? "Timetable content for this year"
               : contentType === "pyq"
               ? "Past Year Questions for this semester"
               : contentType === "important"
@@ -146,7 +154,7 @@ export default function YearPage() {
           ) : (
             <ContentList
               content={syllabusContent}
-              emptyMessage={`No syllabus content available for ${yearData?.name || `Year ${year}`} yet.`}
+              emptyMessage={`No syllabus content available for ${yearData?.name || `Semester ${year}`} yet.`}
             />
           )
         ) : contentType === "timetable" ? (

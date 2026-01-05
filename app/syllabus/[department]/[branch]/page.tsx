@@ -40,7 +40,7 @@ export default function SyllabusBranchPage() {
 
       return {
         level: year.level,
-        name: `${year.level === 1 ? "1st" : year.level === 2 ? "2nd" : year.level === 3 ? "3rd" : `${year.level}th`} Year`,
+        name: year.name || `Semester ${year.level}`,
         contentCount: yearContent.length,
       }
     })
@@ -72,7 +72,7 @@ export default function SyllabusBranchPage() {
               </h1>
             </div>
             <p className="text-muted-foreground text-lg">
-              Select a year to view syllabus content
+              Select a semester to view syllabus content
             </p>
           </div>
 

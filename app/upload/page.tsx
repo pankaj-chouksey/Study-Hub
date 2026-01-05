@@ -89,13 +89,15 @@ export default function UploadPage() {
     if (!hierarchySelection) {
       const requiredFields = requiresSubject 
         ? "department, branch, semester, subject, and topic"
-        : "department, branch, and semester"
+        : contentType === "timetable" 
+          ? "department, branch, and year"
+          : "department, branch, and semester"
       toast.error(`Please select ${requiredFields}`)
       return false
     }
 
     if (!hierarchySelection.department || !hierarchySelection.branch || !hierarchySelection.year) {
-      const fieldName = contentType === "syllabus" || contentType === "timetable" ? "year" : "semester"
+      const fieldName = contentType === "timetable" ? "year" : "semester"
       toast.error(`Please select department, branch, and ${fieldName}`)
       return false
     }
