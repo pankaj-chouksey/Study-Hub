@@ -26,7 +26,7 @@ const typeIcons: Record<ContentType, React.ComponentType<{ className?: string }>
   timetable: Calendar,
 };
 
-export function SearchBar({ className }: { className?: string }) {
+export function SearchBar({ className, autoFocus = false, onClose }: { className?: string; autoFocus?: boolean; onClose?: () => void }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -74,6 +74,15 @@ export function SearchBar({ className }: { className?: string }) {
 
     return () => clearTimeout(timeoutId);
   }, [query]);
+
+  // Auto-focus input when component mounts (for dialog/mobile)
+  useEffect(() => {
+    if (autoFocus && inputRef.current) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+    }
+  }, [autoFocus]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -125,6 +134,7 @@ export function SearchBar({ className }: { className?: string }) {
     setQuery("");
     setIsOpen(false);
     inputRef.current?.blur();
+    onClose?.();
   };
 
   const handleSearch = () => {
@@ -132,6 +142,7 @@ export function SearchBar({ className }: { className?: string }) {
       router.push(`/search?q=${encodeURIComponent(query)}`);
       setIsOpen(false);
       inputRef.current?.blur();
+      onClose?.();
     }
   };
 

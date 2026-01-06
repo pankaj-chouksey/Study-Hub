@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Upload, Moon, Sun, BookOpen, LogOut, User, LogIn, Search } from "lucide-react";
+import { Upload, Moon, Sun, BookOpen, LogOut, User, LogIn, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -25,6 +25,37 @@ export function Navbar() {
   const { data: session, status } = useSession();
   const isUserAuthenticated = status === "authenticated";
   const user = session?.user;
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+
+  // Handle closing animation
+  const handleCloseSearch = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsSearchOpen(false);
+      setIsClosing(false);
+    }, 200); // Match animation duration
+  };
+
+  // Close search when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        isSearchOpen &&
+        !isClosing &&
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(event.target as Node)
+      ) {
+        handleCloseSearch();
+      }
+    }
+
+    if (isSearchOpen && !isClosing) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [isSearchOpen, isClosing]);
 
   const handleLogout = async () => {
     try {
@@ -41,29 +72,60 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-6 h-16 flex items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2 font-bold text-xl text-foreground">
+        {/* Logo - Hidden on mobile when search is open */}
+        <Link 
+          href="/" 
+          className={`flex items-center gap-2 font-bold text-xl text-foreground transition-opacity duration-200 ${
+            isSearchOpen ? "hidden md:flex" : "flex"
+          }`}
+        >
           <span className="text-[#2E2E2E] dark:text-[#EEEEEE]">
             Adhyayan
           </span>
         </Link>
 
+        {/* Desktop Search Bar */}
         <div className="hidden md:flex flex-1 max-w-2xl mx-8">
           <SearchBar />
         </div>
 
-        <div className="flex items-center gap-3">
-          {/* Mobile Search Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
-            asChild
+        {/* Mobile Search Bar - Shows when search is open */}
+        {isSearchOpen && (
+          <div 
+            ref={searchContainerRef}
+            className={`md:hidden flex-1 mx-2 duration-200 ${
+              isClosing 
+                ? "animate-out fade-out slide-out-to-right" 
+                : "animate-in fade-in slide-in-from-right"
+            }`}
           >
-            <Link href="/search">
+            <SearchBar autoFocus onClose={handleCloseSearch} />
+          </div>
+        )}
+
+        <div className="flex items-center gap-3">
+          {/* Mobile Search Toggle Button */}
+          {!isSearchOpen ? (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              onClick={() => setIsSearchOpen(true)}
+            >
               <Search className="h-5 w-5" />
-              <span className="sr-only">Search</span>
-            </Link>
-          </Button>
+              <span className="sr-only">Open search</span>
+            </Button>
+          ) : (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              onClick={handleCloseSearch}
+            >
+              <X className="h-5 w-5" />
+              <span className="sr-only">Close search</span>
+            </Button>
+          )}
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

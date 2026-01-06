@@ -122,13 +122,13 @@ export default function YearPage() {
             </Link>
             <ChevronRight className="h-4 w-4" />
             <span className="text-foreground">
-              {contentType === "syllabus" 
+              {contentType === "syllabus" || contentType === "pyq"
                 ? (yearData?.name || `Semester ${year}`)
                 : (yearData?.name || `Year ${year}`)}
             </span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold leading-tight">
-            {contentType === "syllabus" 
+            {contentType === "syllabus" || contentType === "pyq"
               ? (yearData?.name || `Semester ${year}`)
               : (yearData?.name || `Year ${year}`)}
           </h1>

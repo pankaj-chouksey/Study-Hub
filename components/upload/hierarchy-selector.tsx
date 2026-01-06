@@ -31,8 +31,8 @@ export function HierarchySelector({ onSelect, value, contentType }: HierarchySel
     onSelectRef.current = onSelect
   }, [onSelect])
 
-  // For syllabus and timetable, subject and topic are optional
-  const requiresSubject = contentType !== "syllabus" && contentType !== "timetable"
+  // For syllabus, timetable, and pyq, subject and topic are optional
+  const requiresSubject = contentType !== "syllabus" && contentType !== "timetable" && contentType !== "pyq"
 
   // Sync with value prop only when it's explicitly reset (null/undefined)
   useEffect(() => {
@@ -206,7 +206,7 @@ export function HierarchySelector({ onSelect, value, contentType }: HierarchySel
         </Select>
       </div>
 
-      {/* Subject Selector - Optional for syllabus and timetable */}
+      {/* Subject Selector - Optional for syllabus, timetable, and pyq */}
       {requiresSubject && (
         <div className="space-y-2">
           <Label htmlFor="subject">Subject *</Label>
@@ -240,7 +240,7 @@ export function HierarchySelector({ onSelect, value, contentType }: HierarchySel
         </div>
       )}
 
-      {/* Topic Input - Optional for syllabus and timetable */}
+      {/* Topic Input - Optional for syllabus, timetable, and pyq */}
       {requiresSubject && (
         <div className="space-y-2">
           <Label htmlFor="topic">Topic *</Label>

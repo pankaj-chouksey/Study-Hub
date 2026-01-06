@@ -84,7 +84,7 @@ export default function UploadPage() {
   }
 
   const validateForm = (): boolean => {
-    const requiresSubject = contentType !== "syllabus" && contentType !== "timetable"
+    const requiresSubject = contentType !== "syllabus" && contentType !== "timetable" && contentType !== "pyq"
     
     if (!hierarchySelection) {
       const requiredFields = requiresSubject 
@@ -158,8 +158,8 @@ export default function UploadPage() {
         return
       }
 
-      // For syllabus and timetable, subject and topic should be empty strings
-      const requiresSubject = contentType !== "syllabus" && contentType !== "timetable"
+      // For syllabus, timetable, and pyq, subject and topic should be empty strings
+      const requiresSubject = contentType !== "syllabus" && contentType !== "timetable" && contentType !== "pyq"
       
       // Upload content to MongoDB
       const response = await fetch("/api/content", {

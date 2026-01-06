@@ -97,8 +97,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // For content types that require subject and topic (not syllabus/timetable)
-    const requiresSubject = type !== "syllabus" && type !== "timetable"
+    // For content types that require subject and topic (not syllabus/timetable/pyq)
+    const requiresSubject = type !== "syllabus" && type !== "timetable" && type !== "pyq"
     if (requiresSubject && (!subject || !topic)) {
       return NextResponse.json(
         { success: false, error: "Subject and topic are required for this content type" },
