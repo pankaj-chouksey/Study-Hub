@@ -2,18 +2,20 @@
 
 import { useState, useMemo, useEffect } from "react"
 import Link from "next/link"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { Navbar } from "@/components/layout/navbar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ContentList } from "@/components/content/content-list"
 import { ContentFilters } from "@/components/content/content-filters"
-import { ChevronRight, FileText, Video, FileQuestion, Star, MessageSquare, Loader2 } from "lucide-react"
+import { ChevronRight, FileText, Video, FileQuestion, Star, MessageSquare, Loader2, RefreshCw } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import { DEPARTMENTS } from "@/lib/constants"
 import { ContentType } from "@/lib/types"
 import { useApprovedContent } from "@/hooks/use-approved-content"
 
 export default function SubjectPage() {
   const params = useParams()
+  const router = useRouter()
   const department = params.department as string
   const branch = params.branch as string
   const year = params.year as string
@@ -36,7 +38,36 @@ export default function SubjectPage() {
 
   // Fetch approved content from MongoDB
   // Don't filter by subject in the hook, we'll do it here for more flexibility
-  const { content: dbContent, isLoading } = useApprovedContent({})
+  const { content: dbContent, isLoading, refetch } = useApprovedContent({})
+
+  // Refetch when navigating to this page or when params change
+  useEffect(() => {
+    if (subjectData?.name) {
+      // Small delay to ensure the page is fully mounted
+      const timeoutId = setTimeout(() => {
+        refetch();
+        // Also refresh the router to clear any Next.js cache
+        router.refresh();
+      }, 100);
+      return () => clearTimeout(timeoutId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subjectData?.name, department, branch, year])
+
+  // Also refetch when page becomes visible
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden && subjectData?.name) {
+        refetch();
+        router.refresh();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [subjectData?.name, refetch, router])
 
   // Debug: Log what we're looking for and what we have
   useEffect(() => {
@@ -56,12 +87,29 @@ export default function SubjectPage() {
     let content = dbContent.filter(c => {
       if (!subjectData?.name) return false
       // Case-insensitive match and handle variations
-      const dbSubject = c.subject.toLowerCase().trim()
+      const dbSubject = (c.subject || "").toLowerCase().trim()
       const targetSubject = subjectData.name.toLowerCase().trim()
-      return dbSubject === targetSubject || dbSubject.includes(targetSubject) || targetSubject.includes(dbSubject)
+      const matches = dbSubject === targetSubject || dbSubject.includes(targetSubject) || targetSubject.includes(dbSubject)
+      
+      // Debug logging for mismatches
+      if (!matches && dbSubject && targetSubject) {
+        console.log('Subject mismatch:', {
+          dbSubject,
+          targetSubject,
+          contentTitle: c.title,
+          contentId: c.id
+        })
+      }
+      
+      return matches
     })
 
-    console.log('Filtered by subject:', content.length, 'items')
+    console.log('Filtered by subject:', {
+      totalDbContent: dbContent.length,
+      filteredCount: content.length,
+      lookingFor: subjectData?.name,
+      allDbSubjects: [...new Set(dbContent.map(c => c.subject).filter(Boolean))]
+    })
 
     // Filter by topic
     if (selectedTopic !== "all") {
@@ -92,7 +140,7 @@ export default function SubjectPage() {
     }
 
     return content
-  }, [subjectData, selectedTopic, selectedYear, selectedType, activeTab])
+  }, [dbContent, subjectData, selectedTopic, selectedYear, selectedType, activeTab])
 
   // Available years for PYQ filter (extract from content tags)
   const availableYears = useMemo(() => {
@@ -146,6 +194,16 @@ export default function SubjectPage() {
                 )}
               </p>
             </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => refetch()}
+              disabled={isLoading}
+              className="gap-2"
+            >
+              <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+              Refresh
+            </Button>
           </div>
         </div>
 

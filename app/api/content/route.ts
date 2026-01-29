@@ -3,6 +3,10 @@ import dbConnect from "@/lib/mongodb";
 import Content from "@/models/Content";
 import User from "@/models/User";
 
+// Disable caching for this route
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // GET /api/content - Get all content with filters
 export async function GET(request: NextRequest) {
   try {
@@ -48,7 +52,14 @@ export async function GET(request: NextRequest) {
       },
     }));
 
-    return NextResponse.json({ success: true, data: contentWithUploaders });
+    const response = NextResponse.json({ success: true, data: contentWithUploaders });
+    
+    // Prevent caching to ensure fresh data
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('Expires', '0');
+    
+    return response;
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message },
