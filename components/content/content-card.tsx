@@ -90,14 +90,21 @@ export function ContentCard({ content, className }: ContentCardProps) {
           </h3>
 
           {/* Uploader Info */}
-          <div className="flex items-center gap-2">
-            <Avatar className="w-6 h-6">
+          <div className="flex items-center gap-2 flex-wrap">
+            <Avatar className="w-6 h-6 flex-shrink-0">
               <AvatarImage src={content.uploader.avatar} alt={content.uploader.name} />
               <AvatarFallback>{content.uploader.name.charAt(0)}</AvatarFallback>
             </Avatar>
-            <span className="text-sm text-muted-foreground truncate">
-              {content.uploader.name}
-            </span>
+            <div className="min-w-0">
+              <span className="text-sm text-muted-foreground truncate block">
+                {content.uploader.name}
+              </span>
+              {(content.uploader.branch || content.uploader.year) && (
+                <span className="text-xs text-muted-foreground/80 truncate block">
+                  {[content.uploader.branch, content.uploader.year].filter(Boolean).join(" · ")}
+                </span>
+              )}
+            </div>
           </div>
 
           {/* Stats */}

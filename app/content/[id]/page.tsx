@@ -28,6 +28,7 @@ import {
 } from "lucide-react"
 import { Comment } from "@/lib/types"
 import { DEPARTMENTS } from "@/lib/constants"
+import { downloadAsPdf, getPdfFilenameFromUrl } from "@/lib/download-pdf"
 
 export default function ContentViewPage() {
   const params = useParams()
@@ -354,41 +355,10 @@ export default function ContentViewPage() {
                   size="lg" 
                   className="gap-2"
                   onClick={async () => {
-                    try {
-                      // Try to download the file properly
-                      const link = document.createElement('a')
-                      link.href = content.fileUrl
-                      // Extract filename from URL or use title
-                      const urlParts = content.fileUrl.split('/')
-                      const urlFilename = urlParts[urlParts.length - 1].split('?')[0]
-                      const filename = urlFilename.endsWith('.pdf') 
-                        ? urlFilename 
-                        : `${content.title || 'document'}.pdf`
-                      link.download = filename
-                      link.target = '_blank'
-                      link.rel = 'noopener noreferrer'
-                      
-                      // For some browsers, we need to fetch and create a blob
-                      try {
-                        const response = await fetch(content.fileUrl)
-                        const blob = await response.blob()
-                        const blobUrl = URL.createObjectURL(blob)
-                        link.href = blobUrl
-                        document.body.appendChild(link)
-                        link.click()
-                        document.body.removeChild(link)
-                        // Clean up the blob URL after a delay
-                        setTimeout(() => URL.revokeObjectURL(blobUrl), 100)
-                      } catch (fetchError) {
-                        // Fallback to direct link if fetch fails (CORS issues)
-                        document.body.appendChild(link)
-                        link.click()
-                        document.body.removeChild(link)
-                      }
-                    } catch (error) {
-                      // Final fallback: open in new tab
-                      window.open(content.fileUrl, '_blank')
-                    }
+                    const filename = content.title
+                      ? `${content.title}.pdf`
+                      : getPdfFilenameFromUrl(content.fileUrl)
+                    await downloadAsPdf(content.fileUrl, filename)
                   }}
                 >
                   <Download className="w-4 h-4" />
@@ -469,20 +439,21 @@ export default function ContentViewPage() {
                 </Avatar>
                 <div>
                   <p className="font-medium">{content.uploader.name}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {content.uploader.branch}
-                  </p>
                 </div>
               </div>
               <Separator className="mb-4" />
               <div className="space-y-2 text-sm">
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Points</span>
-                  <span className="font-semibold">{content.uploader.points.toLocaleString()}</span>
+                  <span className="text-muted-foreground">Branch</span>
+                  <span className="font-semibold">{content.uploader.branch || "—"}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">Year</span>
-                  <span className="font-semibold">{content.uploader.year}</span>
+                  <span className="font-semibold">{content.uploader.year || "—"}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Points</span>
+                  <span className="font-semibold">{content.uploader.points.toLocaleString()}</span>
                 </div>
               </div>
             </Card>

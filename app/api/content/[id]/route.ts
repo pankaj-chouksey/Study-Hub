@@ -12,7 +12,7 @@ export async function GET(
     const { id } = await params;
 
     const content = await Content.findById(id)
-      .populate("uploaderId", "name email avatar role")
+      .populate("uploaderId", "name email avatar role branch year points createdAt")
       .lean();
 
     if (!content) {
@@ -44,7 +44,7 @@ export async function PUT(
     const content = await Content.findByIdAndUpdate(id, body, {
       new: true,
       runValidators: true,
-    }).populate("uploaderId", "name email avatar role");
+    }).populate("uploaderId", "name email avatar role branch year points createdAt");
 
     if (!content) {
       return NextResponse.json(

@@ -5,6 +5,7 @@ import { Loader2, AlertCircle, Download } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { downloadAsPdf, getPdfFilenameFromUrl } from "@/lib/download-pdf"
 
 interface PDFViewerProps {
   fileUrl: string
@@ -90,35 +91,8 @@ export function PDFViewer({ fileUrl, title, className }: PDFViewerProps) {
           </div>
           <Button
             onClick={async () => {
-              try {
-                // Try to download the file properly
-                const link = document.createElement('a')
-                link.href = fileUrl
-                link.download = title ? `${title}.pdf` : 'document.pdf'
-                link.target = '_blank'
-                link.rel = 'noopener noreferrer'
-                
-                // For some browsers, we need to fetch and create a blob
-                try {
-                  const response = await fetch(fileUrl)
-                  const blob = await response.blob()
-                  const blobUrl = URL.createObjectURL(blob)
-                  link.href = blobUrl
-                  document.body.appendChild(link)
-                  link.click()
-                  document.body.removeChild(link)
-                  // Clean up the blob URL after a delay
-                  setTimeout(() => URL.revokeObjectURL(blobUrl), 100)
-                } catch (fetchError) {
-                  // Fallback to direct link if fetch fails (CORS issues)
-                  document.body.appendChild(link)
-                  link.click()
-                  document.body.removeChild(link)
-                }
-              } catch (error) {
-                // Final fallback: open in new tab
-                window.open(fileUrl, '_blank')
-              }
+              const filename = title ? `${title}.pdf` : getPdfFilenameFromUrl(fileUrl)
+              await downloadAsPdf(fileUrl, filename)
             }}
             className="gap-2"
           >
@@ -166,35 +140,8 @@ export function PDFViewer({ fileUrl, title, className }: PDFViewerProps) {
                 variant="secondary"
                 size="sm"
                 onClick={async () => {
-                  try {
-                    // Try to download the file properly
-                    const link = document.createElement('a')
-                    link.href = fileUrl
-                    link.download = title ? `${title}.pdf` : 'document.pdf'
-                    link.target = '_blank'
-                    link.rel = 'noopener noreferrer'
-                    
-                    // For some browsers, we need to fetch and create a blob
-                    try {
-                      const response = await fetch(fileUrl)
-                      const blob = await response.blob()
-                      const blobUrl = URL.createObjectURL(blob)
-                      link.href = blobUrl
-                      document.body.appendChild(link)
-                      link.click()
-                      document.body.removeChild(link)
-                      // Clean up the blob URL after a delay
-                      setTimeout(() => URL.revokeObjectURL(blobUrl), 100)
-                    } catch (fetchError) {
-                      // Fallback to direct link if fetch fails (CORS issues)
-                      document.body.appendChild(link)
-                      link.click()
-                      document.body.removeChild(link)
-                    }
-                  } catch (error) {
-                    // Final fallback: open in new tab
-                    window.open(fileUrl, '_blank')
-                  }
+                  const filename = title ? `${title}.pdf` : getPdfFilenameFromUrl(fileUrl)
+                  await downloadAsPdf(fileUrl, filename)
                 }}
                 className="gap-2 shadow-lg"
               >

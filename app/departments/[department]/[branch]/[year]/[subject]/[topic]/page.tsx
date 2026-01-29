@@ -419,20 +419,21 @@ export default function TopicContentPage() {
                 </Avatar>
                 <div>
                   <p className="font-medium">{content.uploader.name}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {content.uploader.branch}
-                  </p>
                 </div>
               </div>
               <Separator className="mb-4" />
               <div className="space-y-2 text-sm">
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Points</span>
-                  <span className="font-semibold">{content.uploader.points.toLocaleString()}</span>
+                  <span className="text-muted-foreground">Branch</span>
+                  <span className="font-semibold">{content.uploader.branch || "—"}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">Year</span>
-                  <span className="font-semibold">{content.uploader.year}</span>
+                  <span className="font-semibold">{content.uploader.year || "—"}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Points</span>
+                  <span className="font-semibold">{content.uploader.points.toLocaleString()}</span>
                 </div>
               </div>
             </Card>

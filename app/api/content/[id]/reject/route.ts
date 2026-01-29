@@ -15,7 +15,7 @@ export async function PUT(
       id,
       { status: "rejected" },
       { new: true }
-    ).populate("uploaderId", "name email avatar role");
+    ).populate("uploaderId", "name email avatar role branch year points createdAt");
 
     if (!content) {
       return NextResponse.json(
