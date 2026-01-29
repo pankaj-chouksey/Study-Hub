@@ -24,6 +24,7 @@ import {
 } from "lucide-react"
 import { DEPARTMENTS, MOCK_USERS } from "@/lib/constants"
 import { Comment } from "@/lib/types"
+import { downloadAsPdf, getPdfFilenameFromUrl } from "@/lib/download-pdf"
 
 export default function TopicContentPage() {
   const params = useParams()
@@ -332,14 +333,17 @@ export default function TopicContentPage() {
 
             {/* Action Buttons */}
             <div className="flex flex-wrap gap-3">
-              {content.fileUrl && (
+              {content.fileUrl && content.type !== "video" && (
                 <Button 
                   size="lg" 
                   className="gap-2"
-                  onClick={() => window.open(content.fileUrl, '_blank')}
+                  onClick={async () => {
+                    const filename = content.title ? `${content.title}.pdf` : getPdfFilenameFromUrl(content.fileUrl)
+                    await downloadAsPdf(content.fileUrl, filename)
+                  }}
                 >
                   <Download className="w-4 h-4" />
-                  Download
+                  Download PDF
                 </Button>
               )}
               <Button variant="outline" size="lg" className="gap-2">
