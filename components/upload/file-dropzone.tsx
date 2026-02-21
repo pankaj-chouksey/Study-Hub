@@ -5,13 +5,17 @@ import { Upload, File, X, CheckCircle2, AlertCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface FileDropzoneProps {
-  onFileSelect: (file: File) => void
+  /** Called when a file is chosen. If it returns a Promise, "Upload complete" is shown only when it resolves. */
+  onFileSelect: (file: File) => void | Promise<void>
+  /** Called when the user removes the selected file (e.g. so parent can clear fileUrl). */
+  onClear?: () => void
   accept?: string
   maxSize?: number // in MB
 }
 
 export function FileDropzone({
   onFileSelect,
+  onClear,
   accept = ".pdf,.doc,.docx,.ppt,.pptx",
   maxSize = 50,
 }: FileDropzoneProps) {
@@ -19,6 +23,7 @@ export function FileDropzone({
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [uploadProgress, setUploadProgress] = useState<number>(0)
+  const [isWaitingForUpload, setIsWaitingForUpload] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const validateFile = (file: File): string | null => {
@@ -40,7 +45,7 @@ export function FileDropzone({
   }
 
   const handleFile = useCallback(
-    (file: File) => {
+    async (file: File) => {
       setError(null)
       const validationError = validateFile(file)
 
@@ -51,20 +56,35 @@ export function FileDropzone({
       }
 
       setSelectedFile(file)
-      
-      // Simulate upload progress
       setUploadProgress(0)
-      const interval = setInterval(() => {
-        setUploadProgress((prev) => {
-          if (prev >= 100) {
-            clearInterval(interval)
-            return 100
-          }
-          return prev + 10
-        })
-      }, 100)
+      setIsWaitingForUpload(true)
 
-      onFileSelect(file)
+      const result = onFileSelect(file)
+
+      if (result != null && typeof (result as Promise<unknown>).then === "function") {
+        try {
+          await (result as Promise<void>)
+          setUploadProgress(100)
+        } catch (err) {
+          const message = err instanceof Error ? err.message : "Upload failed"
+          setError(message)
+          setSelectedFile(null)
+        } finally {
+          setIsWaitingForUpload(false)
+        }
+      } else {
+        // Sync callback: use fake progress
+        const interval = setInterval(() => {
+          setUploadProgress((prev) => {
+            if (prev >= 100) {
+              clearInterval(interval)
+              setIsWaitingForUpload(false)
+              return 100
+            }
+            return prev + 10
+          })
+        }, 100)
+      }
     },
     [onFileSelect, accept, maxSize]
   )
@@ -118,6 +138,8 @@ export function FileDropzone({
     setSelectedFile(null)
     setError(null)
     setUploadProgress(0)
+    setIsWaitingForUpload(false)
+    onClear?.()
     if (fileInputRef.current) {
       fileInputRef.current.value = ""
     }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
 import { MainLayout } from "@/components/layout/main-layout"
 import { AuthRequired } from "@/components/auth/auth-required"
@@ -39,45 +39,120 @@ export default function UploadPage() {
   const [contentType, setContentType] = useState<ContentType>("note")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
+  const [uploadConfig, setUploadConfig] = useState<{
+    useDirectUpload?: boolean
+    cloudName?: string | null
+    uploadPreset?: string | null
+  } | null>(null)
 
   const handleHierarchySelect = (selection: HierarchySelection) => {
     setHierarchySelection(selection)
   }
 
+  // Fetch upload config once so we can show banner and choose direct vs server upload
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_USE_LOCAL_UPLOAD === "true") {
+      setUploadConfig({ useDirectUpload: false })
+      return
+    }
+    fetch("/api/upload-config", { cache: "no-store" })
+      .then((r) => r.json())
+      .then(setUploadConfig)
+      .catch(() => setUploadConfig({ useDirectUpload: false }))
+  }, [])
+
   const handleFileSelect = async (file: File) => {
     setSelectedFile(file)
     setIsUploading(true)
-    
+
+    const useLocal = process.env.NEXT_PUBLIC_USE_LOCAL_UPLOAD === "true"
+
     try {
-      // Upload file
+      // Direct upload to Cloudinary from browser (bypasses server body limit for large files)
+      if (!useLocal) {
+        let config: { useDirectUpload?: boolean; cloudName?: string; uploadPreset?: string } = {}
+        try {
+          const configRes = await fetch("/api/upload-config", { cache: "no-store" })
+          config = configRes.ok ? await configRes.json() : {}
+        } catch (configErr) {
+          console.error("Upload config fetch failed:", configErr)
+          toast.error("Could not load upload settings. Check env vars and redeploy.")
+          setSelectedFile(null)
+          setIsUploading(false)
+          throw new Error("Could not load upload settings. Check env vars and redeploy.")
+        }
+        if (config.useDirectUpload && config.cloudName && config.uploadPreset) {
+          const formData = new FormData()
+          formData.append("file", file)
+          formData.append("upload_preset", config.uploadPreset)
+          const cloudRes = await fetch(
+            `https://api.cloudinary.com/v1_1/${config.cloudName}/raw/upload`,
+            { method: "POST", body: formData }
+          )
+          let cloudData: { secure_url?: string; error?: string | { message?: string }; message?: string } = {}
+          try {
+            cloudData = await cloudRes.json()
+          } catch {
+            const text = await cloudRes.text()
+            console.error("Cloudinary response (not JSON):", text.slice(0, 200))
+            const msg = cloudRes.ok ? "Upload failed (invalid response)" : `Upload failed (${cloudRes.status})`
+            toast.error(msg)
+            setSelectedFile(null)
+            setIsUploading(false)
+            throw new Error(msg)
+          }
+          if (cloudData.secure_url) {
+            setFileUrl(cloudData.secure_url)
+            toast.success("File uploaded successfully!")
+            setIsUploading(false)
+            return
+          }
+          const errMsg =
+            (typeof cloudData.error === "string" ? cloudData.error : cloudData.error?.message) ||
+            cloudData.message ||
+            (cloudRes.ok ? "Upload failed (no URL returned)" : `Upload failed (${cloudRes.status})`)
+          console.error("Cloudinary upload error:", cloudData)
+          toast.error(errMsg)
+          setSelectedFile(null)
+          setIsUploading(false)
+          throw new Error(errMsg)
+        }
+      }
+
+      // Server upload (local or Cloudinary without direct preset)
+      const LARGE_FILE_THRESHOLD = 10 * 1024 * 1024 // 10MB
+      if (!useLocal && file.size > LARGE_FILE_THRESHOLD) {
+        const msg =
+          "Files over 10MB require Cloudinary direct upload. Add NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME and NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET to your deployment and redeploy."
+        toast.error(msg)
+        setSelectedFile(null)
+        setIsUploading(false)
+        throw new Error(msg)
+      }
       const formData = new FormData()
-      formData.append('file', file)
-      
-      // Choose upload endpoint based on environment
-      // Local: /api/upload-local
-      // Production: /api/upload-cloudinary (Cloudinary)
-      const uploadEndpoint = process.env.NEXT_PUBLIC_USE_LOCAL_UPLOAD === 'true' 
-        ? '/api/upload-local' 
-        : '/api/upload-cloudinary'
-      
+      formData.append("file", file)
+      const uploadEndpoint = useLocal ? "/api/upload-local" : "/api/upload-cloudinary"
       const response = await fetch(uploadEndpoint, {
-        method: 'POST',
+        method: "POST",
         body: formData,
       })
-      
       const data = await response.json()
-      
+
       if (data.success) {
         setFileUrl(data.url)
-        toast.success('File uploaded successfully!')
+        toast.success("File uploaded successfully!")
       } else {
-        toast.error(data.error || 'Upload failed')
+        const errMsg = data.error || (response.ok ? "Upload failed" : `Upload failed (${response.status})`)
+        toast.error(errMsg)
         setSelectedFile(null)
+        throw new Error(errMsg)
       }
     } catch (error) {
-      console.error('Upload error:', error)
-      toast.error('Failed to upload file')
+      const message = error instanceof Error ? error.message : String(error)
+      console.error("Upload error:", error)
+      toast.error(message || "Failed to upload file")
       setSelectedFile(null)
+      throw error instanceof Error ? error : new Error(message || "Failed to upload file")
     } finally {
       setIsUploading(false)
     }
@@ -335,9 +410,25 @@ export default function UploadPage() {
                   </TabsList>
 
                   <TabsContent value="file" className="mt-4">
+                    {!process.env.NEXT_PUBLIC_USE_LOCAL_UPLOAD &&
+                      uploadConfig &&
+                      uploadConfig.useDirectUpload === false && (
+                        <div className="mb-4 rounded-lg border border-amber-500/50 bg-amber-500/10 p-3 text-sm text-amber-800 dark:text-amber-200">
+                          <strong>Large files (&gt;10MB):</strong> Add{" "}
+                          <code className="rounded bg-black/10 px-1">NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME</code> and{" "}
+                          <code className="rounded bg-black/10 px-1">NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET</code> to
+                          your deployment environment (e.g. Vercel) and redeploy, or uploads over ~4MB may fail.
+                        </div>
+                      )}
                     <div className="space-y-2">
                       <Label>Upload File *</Label>
-                      <FileDropzone onFileSelect={handleFileSelect} />
+                      <FileDropzone
+                        onFileSelect={handleFileSelect}
+                        onClear={() => {
+                          setSelectedFile(null)
+                          setFileUrl("")
+                        }}
+                      />
                       {isUploading && (
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                           <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>

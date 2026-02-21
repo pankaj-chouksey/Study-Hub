@@ -4,7 +4,7 @@ import path from "path";
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
-  // Allow file uploads up to 50MB (default is 10MB; upload APIs also enforce 50MB)
+  // Allow file uploads up to 50MB (defaults are 1MB serverActions, 10MB proxy/middleware)
   experimental: {
     serverActions: {
       bodySizeLimit: "50mb",
