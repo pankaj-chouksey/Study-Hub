@@ -13,6 +13,11 @@ Your study platform now uses Cloudinary for file storage with 25GB free storage!
 - ✅ **CDN delivery** worldwide
 - ✅ **Transformations** on-the-fly
 
+## 🚀 Quick Links
+
+- **For 50MB file support**: See [CLOUDINARY-DIRECT-UPLOAD-SETUP.md](./CLOUDINARY-DIRECT-UPLOAD-SETUP.md)
+- **Basic setup**: Continue reading below
+
 ## Setup Steps
 
 ### 1. Create Cloudinary Account
@@ -35,20 +40,34 @@ After signing up:
 ### 3. Add to .env.local (Development)
 
 ```env
+# Server-side credentials
 CLOUDINARY_CLOUD_NAME=your-cloud-name
 CLOUDINARY_API_KEY=your-api-key
 CLOUDINARY_API_SECRET=your-api-secret
+
+# For direct uploads (50MB support) - Optional but recommended
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your-cloud-name
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your-unsigned-upload-preset
 ```
+
+**Note**: For files larger than 10MB, you need to set up direct uploads. See [CLOUDINARY-DIRECT-UPLOAD-SETUP.md](./CLOUDINARY-DIRECT-UPLOAD-SETUP.md) for details.
 
 ### 4. Add to Vercel (Production)
 
 In Vercel Dashboard → Settings → Environment Variables:
 
 ```
+# Server-side credentials
 CLOUDINARY_CLOUD_NAME=your-cloud-name
 CLOUDINARY_API_KEY=your-api-key
 CLOUDINARY_API_SECRET=your-api-secret
+
+# For direct uploads (50MB support) - Recommended
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your-cloud-name
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your-unsigned-upload-preset
 ```
+
+**Important**: Without the `NEXT_PUBLIC_*` variables, uploads are limited to ~10MB due to server body size limits.
 
 ### 5. Remove Local Upload Flag
 

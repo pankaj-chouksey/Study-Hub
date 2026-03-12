@@ -4,12 +4,11 @@ import path from "path";
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
-  // Allow file uploads up to 50MB (defaults are 1MB serverActions, 10MB proxy/middleware)
+  // Allow file uploads up to 10MB (Cloudinary free tier limit)
   experimental: {
     serverActions: {
-      bodySizeLimit: "50mb",
+      bodySizeLimit: "10mb",
     },
-    proxyClientMaxBodySize: "50mb",
   },
   images: {
     remotePatterns: [

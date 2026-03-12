@@ -17,7 +17,7 @@ export function FileDropzone({
   onFileSelect,
   onClear,
   accept = ".pdf,.doc,.docx,.ppt,.pptx",
-  maxSize = 50,
+  maxSize = 10, // Cloudinary free tier limit
 }: FileDropzoneProps) {
   const [isDragging, setIsDragging] = useState(false)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)

@@ -4,8 +4,8 @@ import cloudinary from "@/lib/cloudinary"
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
 
-// Maximum file size: 50MB
-const MAX_FILE_SIZE = 50 * 1024 * 1024
+// Maximum file size: 10MB (Cloudinary free tier limit)
+const MAX_FILE_SIZE = 10 * 1024 * 1024
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     // Check file size
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
-        { success: false, error: "File size exceeds 50MB limit" },
+        { success: false, error: "File size exceeds 10MB limit (Cloudinary free tier)" },
         { status: 400 }
       )
     }

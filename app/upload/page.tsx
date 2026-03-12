@@ -85,8 +85,10 @@ export default function UploadPage() {
           const formData = new FormData()
           formData.append("file", file)
           formData.append("upload_preset", config.uploadPreset)
+          formData.append("folder", "studyhub-uploads")
+          
           const cloudRes = await fetch(
-            `https://api.cloudinary.com/v1_1/${config.cloudName}/raw/upload`,
+            `https://api.cloudinary.com/v1_1/${config.cloudName}/auto/upload`,
             { method: "POST", body: formData }
           )
           let cloudData: { secure_url?: string; error?: string | { message?: string }; message?: string } = {}
@@ -413,11 +415,16 @@ export default function UploadPage() {
                     {!process.env.NEXT_PUBLIC_USE_LOCAL_UPLOAD &&
                       uploadConfig &&
                       uploadConfig.useDirectUpload === false && (
-                        <div className="mb-4 rounded-lg border border-amber-500/50 bg-amber-500/10 p-3 text-sm text-amber-800 dark:text-amber-200">
-                          <strong>Large files (&gt;10MB):</strong> Add{" "}
-                          <code className="rounded bg-black/10 px-1">NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME</code> and{" "}
-                          <code className="rounded bg-black/10 px-1">NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET</code> to
-                          your deployment environment (e.g. Vercel) and redeploy, or uploads over ~4MB may fail.
+                        <div className="mb-4 rounded-lg border border-blue-500/50 bg-blue-500/10 p-3 text-sm text-blue-800 dark:text-blue-200">
+                          <strong>Note:</strong> Cloudinary free tier supports files up to 10MB. 
+                          For larger files, upgrade your Cloudinary plan.
+                        </div>
+                      )}
+                    {!process.env.NEXT_PUBLIC_USE_LOCAL_UPLOAD &&
+                      uploadConfig &&
+                      uploadConfig.useDirectUpload === true && (
+                        <div className="mb-4 rounded-lg border border-green-500/50 bg-green-500/10 p-3 text-sm text-green-800 dark:text-green-200">
+                          ✓ Direct upload enabled. Files up to 10MB supported (Cloudinary free tier).
                         </div>
                       )}
                     <div className="space-y-2">
@@ -442,7 +449,7 @@ export default function UploadPage() {
                         </div>
                       )}
                       <p className="text-xs text-muted-foreground">
-                        Drag and drop your file or click to browse. Max size: 50MB
+                        Drag and drop your file or click to browse. Max size: 10MB (Cloudinary free tier)
                       </p>
                     </div>
                   </TabsContent>
